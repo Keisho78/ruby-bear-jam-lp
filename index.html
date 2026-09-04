@@ -113,17 +113,24 @@
   }
 
   @media(max-width:700px){
-    .telop{align-items:start;padding-top:9vh;padding-top:9svh}
-    .telop .big{font-size:11vw;letter-spacing:-.03em}
-    .telop .big span{white-space:nowrap}
-    .telop .big.cond{font-size:18vw;letter-spacing:0}
-    .telop .num{margin-bottom:8px}
-    .telop .small{font-size:13px;margin-top:8px;line-height:1.5}
-    /* jar fills everything below the text block (~170px incl. top padding) down to 9svh above the bottom edge;
-       133vw keeps the 3:4 frame inside the viewport width */
-    .stage{align-items:end;padding-bottom:9vh;padding-bottom:9svh}
-    .stage canvas{height:min(calc(82vh - 170px),133vw);height:min(calc(82svh - 170px),133vw)}
-    .telop .cta{position:absolute;left:0;right:0;bottom:3vh;bottom:3svh;margin:0}
+    /* phones: the English headline becomes two huge vertical columns that fill the backdrop
+       (word 1 top-left, word 2 bottom-right), the jar travels over them, and the Japanese
+       line runs small and vertical down the right edge. Desktop rules above are untouched. */
+    .telop{display:block;padding:0}
+    .telop > div{position:absolute;inset:0}
+    .telop .num{display:none}
+    .telop .big{position:static;transform:none;font-size:22vw;letter-spacing:-.02em;line-height:.9}
+    .telop .big span{display:block;white-space:nowrap;position:absolute;writing-mode:vertical-lr;text-orientation:mixed}
+    .telop .big span:first-child{left:-.04em;top:8vh;top:8svh}
+    .telop .big span:last-child{right:26px;bottom:11vh;bottom:11svh}
+    .telop .big span:only-child{left:-.04em;top:8vh;top:8svh;right:auto;bottom:auto}
+    .telop .big.cond{font-size:30vw;letter-spacing:.01em}
+    .telop .small{position:absolute;right:8px;top:12vh;top:12svh;margin:0;writing-mode:vertical-rl;text-orientation:mixed;font-size:12px;letter-spacing:.14em;line-height:1.4;max-height:70vh;max-height:70svh;text-align:left}
+    .telop .cta{position:absolute;left:0;right:0;bottom:3vh;bottom:3svh;margin:0;justify-content:center}
+    /* jar: 106vw wide 3:4 frame (the jar never uses the outer 3% of the frame, so nothing is clipped),
+       centred and nudged below the nav */
+    .stage{align-items:center;justify-content:center;padding-top:6vh;padding-top:6svh;padding-bottom:0}
+    .stage canvas{height:auto;width:106vw;max-width:none}
   }
   .hero-ui{position:absolute;left:0;right:0;bottom:0;z-index:3;padding:0 var(--pad) clamp(20px,4vh,40px);display:flex;justify-content:space-between;align-items:end;pointer-events:none}
   .hero-ui .copy{max-width:26ch;font-size:12px}
