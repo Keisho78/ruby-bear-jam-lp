@@ -95,7 +95,7 @@
 
   /* jar frame sequence (alpha WebP frames drawn on a canvas) */
   .stage{position:absolute;inset:0;z-index:2;display:grid;place-items:center;pointer-events:none}
-  .stage canvas{height:min(80vh,124vw);width:auto;aspect-ratio:3/4}
+  .stage canvas{height:min(80vh,46vw);width:auto;aspect-ratio:3/4}
   @media(min-width:701px){
     /* desktop: headline slightly above centre, Japanese line pinned under the jar */
     .telop{display:block}
@@ -107,18 +107,21 @@
     .telop .big span:last-child{align-self:flex-end}
     .telop .big span:only-child{align-self:center}
     .telop .num{text-align:left}
-    .telop .small{position:absolute;left:0;right:0;top:83vh;margin:0}
-    .telop .cta{position:absolute;left:0;right:0;top:89vh;margin:0}
+    /* Japanese copy + CTA live in the bottom-left column, which the jar never enters */
+    .telop .small{position:absolute;left:0;right:auto;top:auto;bottom:16vh;margin:0;max-width:26vw;text-align:left;font-size:clamp(13px,1.25vw,18px);line-height:1.6}
+    .telop .cta{position:absolute;left:0;right:auto;top:auto;bottom:7vh;margin:0;justify-content:flex-start}
   }
 
   @media(max-width:700px){
-    .telop{align-items:start;padding-top:15vh;padding-top:15svh}
-    .telop .big{font-size:15vw}
-    .telop .big.cond{font-size:22vw}
-    .telop .small{font-size:13px}
-    .stage{align-items:end;padding-bottom:9vh;padding-bottom:9svh}
-    .stage canvas{height:min(70vh,118vw);height:min(70svh,118vw)}
-    .telop .cta{position:absolute;left:0;right:0;bottom:4vh;bottom:4svh;margin:0}
+    .telop{align-items:start;padding-top:11vh;padding-top:11svh}
+    .telop .big{font-size:11vw;letter-spacing:-.03em}
+    .telop .big span{white-space:nowrap}
+    .telop .big.cond{font-size:18vw;letter-spacing:0}
+    .telop .num{margin-bottom:10px}
+    .telop .small{font-size:13px;margin-top:12px;line-height:1.5}
+    .stage{align-items:end;padding-bottom:10vh;padding-bottom:10svh}
+    .stage canvas{height:min(58vh,112vw);height:min(58svh,112vw)}
+    .telop .cta{position:absolute;left:0;right:0;bottom:3vh;bottom:3svh;margin:0}
   }
   .hero-ui{position:absolute;left:0;right:0;bottom:0;z-index:3;padding:0 var(--pad) clamp(20px,4vh,40px);display:flex;justify-content:space-between;align-items:end;pointer-events:none}
   .hero-ui .copy{max-width:26ch;font-size:12px}
@@ -203,8 +206,8 @@ open</div><div class="small">蓋をひねった瞬間、湯気のようないち
     <div class="stage"><canvas id="jarCanvas" width="660" height="880" aria-hidden="true"></canvas></div>
 
     <div class="hero-ui">
-      <p class="copy up">完熟いちごを銅鍋でゆっくり。<br>ペクチンも香料も足さない。</p>
-      <div class="hero-scroll"><span>Scroll</span><i></i></div>
+      <span></span>
+      <div class="hero-scroll"><span>Scroll to open</span><i></i></div>
     </div>
     <div class="hero-progress" aria-hidden="true"><b id="heroBar"></b></div>
 
