@@ -85,8 +85,6 @@
     z-index:2;pointer-events:none;display:grid;place-items:center;justify-content:center;overflow:hidden;
   }
   .stage canvas{height:min(80vh,46vw);width:auto;aspect-ratio:3/4;will-change:transform}
-  .journey-progress{position:absolute;left:0;bottom:0;height:3px;width:100%;background:rgba(40,16,6,.5)}
-  .journey-progress b{display:block;height:100%;width:0;background:var(--gold)}
 
   /* every section: a 100svh "poster" centred in the section; the jar (always centred) rides on top */
   .step{position:relative;z-index:1;min-height:110vh;min-height:110svh;display:grid;align-content:center;padding:0 var(--pad)}
@@ -125,7 +123,7 @@
     /* phones: the headline becomes two huge vertical columns filling the backdrop (word 1 top-left,
        word 2 bottom-right); the jar rides over them; the Japanese line runs small and vertical down the right edge */
     .stage canvas{height:auto;width:104vw;max-width:none}
-    .step{min-height:115vh;min-height:115svh;padding:0}
+    .step{min-height:140vh;min-height:140svh;padding:0}
     .step .num{display:none}
     .step h2{position:static;inset:auto;padding:0;transform:none;display:block;font-size:22vw;letter-spacing:-.02em;line-height:.9}
     .step h2 span{position:absolute;white-space:nowrap;writing-mode:vertical-lr;text-orientation:mixed}
@@ -136,7 +134,7 @@
     .step .jp{position:absolute;left:auto;right:8px;top:10vh;top:10svh;writing-mode:vertical-rl;text-orientation:mixed;font-size:12px;letter-spacing:.1em;line-height:1.7;height:62vh;height:62svh;max-width:none;text-align:left}
     .step .pills{display:none}
     /* hero: horizontal centred poster */
-    .step.hero-step{min-height:115vh;min-height:115svh}
+    .step.hero-step{min-height:125vh;min-height:125svh}
     .step.hero-step .text{padding:0 16px 22vh;padding-bottom:22svh}
     .step.hero-step h2{position:static;font-size:19vw;text-align:center;line-height:.9}
     .step.hero-step h2 span{position:static;writing-mode:horizontal-tb;display:block}
@@ -149,11 +147,11 @@
     .step.final .cta{position:absolute;left:0;right:0;bottom:7vh;bottom:7svh;margin:0;justify-content:center}
   }
 
-  .loader{position:absolute;inset:0;z-index:5;display:grid;place-items:center;background:var(--rust);transition:opacity .5s}
+  .loader{position:absolute;left:50%;bottom:18px;transform:translateX(-50%);z-index:5;background:var(--spice);border-radius:var(--pill);padding:8px 16px;display:flex;align-items:center;gap:10px;transition:opacity .5s}
   .loader.done{opacity:0;pointer-events:none}
-  .loader .bar{width:min(320px,60vw);height:3px;background:var(--spice);margin-top:14px}
+  .loader .bar{width:90px;height:3px;background:rgba(250,174,51,.25);border-radius:2px;overflow:hidden}
   .loader .bar b{display:block;height:100%;width:0;background:var(--gold)}
-  .loader span{font-family:var(--condensed);letter-spacing:.2em;font-size:14px}
+  .loader span{font-family:var(--condensed);letter-spacing:.16em;font-size:12px;white-space:nowrap}
 
   /* ============ FLAVORS ============ */
   .flavors{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:48px}
@@ -203,8 +201,7 @@
 <main class="journey" id="journey">
   <div class="stage" id="stage" aria-hidden="true">
     <canvas id="jarCanvas" width="660" height="880"></canvas>
-    <div class="journey-progress"><b id="heroBar"></b></div>
-    <div class="loader" id="loader"><div style="text-align:center"><img src="assets/icon.webp" alt="" width="72" height="72" style="margin:0 auto 14px"><span>Loading the jar</span><div class="bar"><b id="loadBar"></b></div></div></div>
+    <div class="loader" id="loader"><img src="assets/icon.webp" alt="" width="22" height="22"><span>Loading the jar</span><div class="bar"><b id="loadBar"></b></div></div>
   </div>
 
   <!-- data-x: jar horizontal offset (vw) · data-s: jar scale · data-f: frame reached at this section's centre -->
@@ -322,13 +319,13 @@
 
 <script>
 document.documentElement.classList.add('js');
+if ('scrollRestoration' in history) history.scrollRestoration = 'manual';   // a reload always starts the story from the top
 (() => {
   const journey = document.getElementById('journey');
   const stage   = document.getElementById('stage');
   const canvas  = document.getElementById('jarCanvas');
   const ctx     = canvas.getContext('2d');
   const steps   = [...document.querySelectorAll('.step')];
-  const bar     = document.getElementById('heroBar');
   const loader  = document.getElementById('loader');
   const loadBar = document.getElementById('loadBar');
   const nav     = document.querySelector('.nav');
@@ -365,7 +362,7 @@ document.documentElement.classList.add('js');
       img.onload = img.onerror = () => {
         loaded++;
         loadBar.style.width = (loaded / count * 100) + '%';
-        if (!ready && loaded >= firstPass){ ready = true; loader.classList.add('done'); setTimeout(() => loader.hidden = true, 700); }
+        if (!ready && loaded >= firstPass){ ready = true; loader.classList.add('done'); setTimeout(() => loader.hidden = true, 700); layout(); }
         if (ready){ lastDrawn = -1; render(true); }
       };
       img.src = `assets/frames/${String(i).padStart(pad,'0')}.webp`;
@@ -429,7 +426,6 @@ document.documentElement.classList.add('js');
     canvas.style.transform = `translate3d(${x}vw, ${dy + out * 30}vh, 0) scale(${sc})`;
     canvas.style.opacity = 1 - smooth(out);
     if (ready && count) draw(s.f);
-    bar.style.width = (s.p * 100).toFixed(2) + '%';
     if (Math.abs(target - shown) > .5) raf = requestAnimationFrame(() => render(false));
     else raf = null;
   }
