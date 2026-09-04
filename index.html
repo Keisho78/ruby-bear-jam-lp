@@ -113,14 +113,16 @@
   }
 
   @media(max-width:700px){
-    .telop{align-items:start;padding-top:11vh;padding-top:11svh}
+    .telop{align-items:start;padding-top:9vh;padding-top:9svh}
     .telop .big{font-size:11vw;letter-spacing:-.03em}
     .telop .big span{white-space:nowrap}
     .telop .big.cond{font-size:18vw;letter-spacing:0}
-    .telop .num{margin-bottom:10px}
-    .telop .small{font-size:13px;margin-top:12px;line-height:1.5}
-    .stage{align-items:end;padding-bottom:10vh;padding-bottom:10svh}
-    .stage canvas{height:min(58vh,112vw);height:min(58svh,112vw)}
+    .telop .num{margin-bottom:8px}
+    .telop .small{font-size:13px;margin-top:8px;line-height:1.5}
+    /* jar fills everything below the text block (~170px incl. top padding) down to 9svh above the bottom edge;
+       133vw keeps the 3:4 frame inside the viewport width */
+    .stage{align-items:end;padding-bottom:9vh;padding-bottom:9svh}
+    .stage canvas{height:min(calc(82vh - 170px),133vw);height:min(calc(82svh - 170px),133vw)}
     .telop .cta{position:absolute;left:0;right:0;bottom:3vh;bottom:3svh;margin:0}
   }
   .hero-ui{position:absolute;left:0;right:0;bottom:0;z-index:3;padding:0 var(--pad) clamp(20px,4vh,40px);display:flex;justify-content:space-between;align-items:end;pointer-events:none}
