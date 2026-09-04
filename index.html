@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RUBY BEAR — Slow-Cooked Fruit Jam</title>
+<meta name="description" content="RUBY BEAR は、完熟いちごを銅鍋でゆっくり煮詰めた架空のジャムブランド。">
+<link rel="icon" type="image/png" sizes="64x64" href="assets/icon-64.png">
+<link rel="apple-touch-icon" href="assets/icon-180.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Bebas+Neue&family=Noto+Sans+JP:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  /* ============ TOKENS (Hungry Tiger style reference) ============ */
+  :root{
+    --gold:#faae33;  --rust:#823513;  --saffron:#9f531b;  --chili:#d1255c;
+    --clove:#281006; --spice:#402011; --cardamom:#6b2e12;
+    --display:'Archivo Black','Druk Wide','Antonio','Bebas Neue',sans-serif;
+    --condensed:'Bebas Neue','Antonio',sans-serif;
+    --body:'Noto Sans JP','Inter',sans-serif;
+    --max:1440px; --pill:9999px;
+    --pad:clamp(16px,3vw,48px);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    background:var(--rust);color:var(--gold);
+    font-family:var(--body);font-weight:500;font-size:13px;line-height:1.3;letter-spacing:.01em;
+    overflow-x:hidden;-webkit-font-smoothing:antialiased;
+  }
+  ::selection{background:var(--gold);color:var(--clove)}
+  a{color:inherit;text-decoration:none}
+  img,canvas{display:block;max-width:100%}
+
+  /* botanical watermark wall — the only background on the page */
+  .wall{position:fixed;inset:0;z-index:-1;background:var(--rust) url('assets/bg-texture.jpg') center/cover no-repeat}
+  .wall::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(130,53,19,.15),rgba(130,53,19,.45))}
+
+  /* ============ PRIMITIVES ============ */
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 var(--pad)}
+  .pill{
+    display:inline-flex;align-items:center;gap:8px;height:36px;padding:0 18px;border-radius:var(--pill);
+    background:var(--spice);color:var(--gold);font-family:var(--condensed);font-size:16px;letter-spacing:.06em;
+    text-transform:uppercase;white-space:nowrap;border:0;cursor:pointer;transition:background .2s,color .2s,transform .2s;
+  }
+  .pill:hover{background:var(--gold);color:var(--clove);transform:translateY(-1px)}
+  .pill.gold{background:var(--gold);color:var(--clove)}
+  .pill.gold:hover{background:var(--spice);color:var(--gold)}
+  .pill.ghost{background:transparent;border:1.5px solid var(--gold)}
+  .dots{height:0;border:0;border-top:3px dotted var(--gold);width:100%}
+  .eyebrow{font-family:var(--condensed);font-size:15px;letter-spacing:.14em;text-transform:uppercase}
+  .display{font-family:var(--display);text-transform:uppercase;line-height:.85;letter-spacing:-.02em;color:var(--gold)}
+  .display.xl{font-size:clamp(64px,13.5vw,213px)}
+  .display.lg{font-size:clamp(48px,8.5vw,144px);line-height:.9}
+  .copy{font-size:13px;line-height:1.5;max-width:38ch}
+  .copy.up{letter-spacing:.02em}
+  .section{padding:clamp(80px,9vw,120px) 0}
+
+  /* ============ NAV ============ */
+  .nav{position:fixed;top:0;left:0;right:0;z-index:50;padding:18px var(--pad);display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:12px}
+  .nav .left,.nav .right{display:flex;gap:8px;align-items:center}
+  .nav .right{justify-content:flex-end}
+  .brand{text-align:center;line-height:1}
+  .brand .logo{font-family:var(--display);font-size:22px;letter-spacing:-.02em;text-transform:uppercase;display:block;transition:font-size .3s}
+  .brand .tag{font-family:var(--condensed);font-size:12px;letter-spacing:.16em;margin-top:6px;display:block;transition:opacity .3s,height .3s}
+  .bear{width:44px;height:44px;margin:0 auto 6px;display:block;object-fit:contain;transition:height .3s,opacity .3s,margin .3s}
+  .nav.scrolled .bear{height:0;opacity:0;margin:0}
+  .nav.scrolled .tag{height:0;opacity:0;overflow:hidden;margin:0}
+  .nav.scrolled .brand .logo{font-size:16px;background:var(--spice);border-radius:var(--pill);padding:10px 16px}
+  @media(max-width:900px){.nav .left .pill:not(:first-child){display:none}.nav .right .pill:first-child{display:none}}
+
+  /* ============ HERO — long pinned scroll ============ */
+  .hero-pin{height:1000vh;position:relative}
+  .hero{position:sticky;top:0;height:100vh;overflow:hidden}
+
+  /* captions live BEHIND the jar */
+  .telop{
+    position:absolute;inset:0;z-index:1;display:grid;place-items:center;text-align:center;
+    padding:0 var(--pad);pointer-events:none;opacity:0;visibility:hidden;will-change:transform,opacity;
+  }
+  .telop .big{font-family:var(--display);text-transform:uppercase;line-height:.85;letter-spacing:-.02em;font-size:clamp(56px,13vw,213px);white-space:pre-line}
+  .telop .big span{display:block}
+  .telop .big.cond{font-family:var(--condensed);letter-spacing:0;font-size:clamp(72px,16vw,280px)}
+  .telop .small{font-family:var(--body);font-weight:700;font-size:clamp(14px,1.6vw,22px);letter-spacing:.06em;margin-top:clamp(14px,2.4vw,32px)}
+  .telop .num{font-family:var(--condensed);font-size:clamp(14px,1.4vw,18px);letter-spacing:.2em;margin-bottom:clamp(12px,2vw,24px);color:var(--saffron)}
+  .telop .cta{pointer-events:auto;margin-top:clamp(18px,3vw,36px);display:flex;gap:10px;justify-content:center}
+
+  /* jar frame sequence (alpha WebP frames drawn on a canvas) */
+  .stage{position:absolute;inset:0;z-index:2;display:grid;place-items:center;pointer-events:none}
+  .stage canvas{height:min(80vh,124vw);width:auto;aspect-ratio:3/4}
+  @media(min-width:701px){
+    /* desktop: headline slightly above centre, Japanese line pinned under the jar */
+    .telop{display:block}
+    .telop > div{position:absolute;inset:0 var(--pad)}
+    .telop .num{position:absolute;left:0;top:24vh;margin:0}
+    .telop .big{position:absolute;left:0;right:0;top:47%;transform:translateY(-50%)}
+    .telop .big{display:flex;flex-direction:column;gap:.02em}
+    .telop .big span:first-child{align-self:flex-start}
+    .telop .big span:last-child{align-self:flex-end}
+    .telop .big span:only-child{align-self:center}
+    .telop .num{text-align:left}
+    .telop .small{position:absolute;left:0;right:0;top:83vh;margin:0}
+    .telop .cta{position:absolute;left:0;right:0;top:89vh;margin:0}
+  }
+
+  @media(max-width:700px){
+    .telop{align-items:start;padding-top:15vh}
+    .telop .big{font-size:15vw}
+    .telop .big.cond{font-size:22vw}
+    .telop .small{font-size:13px}
+    .stage{align-items:end;padding-bottom:9vh}
+    .stage canvas{height:min(70vh,118vw)}
+    .telop .cta{position:absolute;left:0;right:0;bottom:4vh;margin:0}
+  }
+  .hero-ui{position:absolute;left:0;right:0;bottom:0;z-index:3;padding:0 var(--pad) clamp(20px,4vh,40px);display:flex;justify-content:space-between;align-items:end;pointer-events:none}
+  .hero-ui .copy{max-width:26ch;font-size:12px}
+  .hero-scroll{font-family:var(--condensed);letter-spacing:.14em;font-size:13px;display:flex;align-items:center;gap:10px}
+  .hero-scroll i{width:44px;height:2px;background:var(--gold);display:block;animation:pulse 1.4s ease-in-out infinite}
+  @keyframes pulse{0%,100%{transform:scaleX(.4);transform-origin:left}50%{transform:scaleX(1)}}
+  .hero-progress{position:absolute;left:0;bottom:0;z-index:4;height:3px;width:100%;background:rgba(40,16,6,.5)}
+  .hero-progress b{display:block;height:100%;width:0;background:var(--gold)}
+
+  .loader{position:absolute;inset:0;z-index:5;display:grid;place-items:center;background:var(--rust);transition:opacity .5s}
+  .loader.done{opacity:0;pointer-events:none}
+  .loader .bar{width:min(320px,60vw);height:3px;background:var(--spice);margin-top:14px}
+  .loader .bar b{display:block;height:100%;width:0;background:var(--gold)}
+  .loader span{font-family:var(--condensed);letter-spacing:.2em;font-size:14px}
+
+  /* ============ FLAVORS ============ */
+  .flavors{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:48px}
+  .flavor{text-align:center}
+  .flavor img{height:min(46vh,380px);width:auto;margin:0 auto;filter:drop-shadow(0 30px 30px rgba(40,16,6,.45));transition:transform .5s cubic-bezier(.2,.7,.2,1)}
+  .flavor:hover img{transform:translateY(-12px) rotate(-3deg)}
+  .flavor h4{font-family:var(--condensed);font-size:44px;letter-spacing:.02em;line-height:.9;margin-top:22px}
+  .flavor p{margin:10px auto 16px;max-width:30ch}
+  .flavor .tagline{display:inline-block;background:var(--chili);color:#fff;border-radius:var(--pill);font-family:var(--condensed);font-size:13px;letter-spacing:.1em;padding:6px 12px;margin-bottom:16px}
+  @media(max-width:900px){.flavors{grid-template-columns:1fr;gap:56px}}
+
+  .statement{text-align:center}
+  .statement .row{display:flex;justify-content:center;gap:10px;margin-top:28px;flex-wrap:wrap}
+
+  footer{padding:60px 0 30px}
+  .foot-grid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:24px}
+  footer .big{font-family:var(--display);font-size:clamp(40px,8vw,120px);line-height:.85;letter-spacing:-.02em;text-transform:uppercase}
+  footer ul{list-style:none;display:grid;gap:8px;font-family:var(--condensed);font-size:16px;letter-spacing:.08em;text-transform:uppercase}
+  .foot-bottom{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-top:40px;padding-top:16px;border-top:3px dotted var(--gold);font-family:var(--condensed);letter-spacing:.1em;font-size:12px;text-transform:uppercase}
+  @media(max-width:900px){.foot-grid{grid-template-columns:1fr 1fr}}
+
+  .js .rv{opacity:0;transform:translateY(28px);transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1)}
+  .rv.in{opacity:1;transform:none}
+  .rv.d1{transition-delay:.1s}.rv.d2{transition-delay:.2s}
+  @media(prefers-reduced-motion:reduce){.js .rv{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+<div class="wall" aria-hidden="true"></div>
+
+<nav class="nav">
+  <div class="left">
+    <a class="pill" href="#shop">Shop</a>
+    <a class="pill" href="#story">Story</a>
+  </div>
+  <a class="brand" href="#top" aria-label="RUBY BEAR">
+    <img class="bear" src="assets/icon.webp" alt="" width="44" height="44">
+    <span class="logo">Ruby Bear</span>
+    <span class="tag">Slow-Cooked Fruit Jam</span>
+  </a>
+  <div class="right">
+    <a class="pill" href="#story">Contact</a>
+    <a class="pill gold" href="#shop">Buy Now
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18l-2 12H5L3 6z"/><path d="M9 6a3 3 0 0 1 6 0"/></svg>
+    </a>
+  </div>
+</nav>
+
+<!-- ============ HERO ============ -->
+<div class="hero-pin" id="top">
+  <section class="hero" id="hero" aria-label="RUBY BEAR いちごジャム">
+
+    <!-- captions (behind the jar). data-in / data-out = scroll progress 0..1 -->
+    <div class="telop" data-in="0"    data-out="0.14"><div><div class="num">Slow-cooked fruit jam · Nagano</div><div class="big">Sweet
+Riot</div><div class="small">ひと瓶まるごと、いちごの暴動。</div></div></div>
+    <div class="telop" data-in="0.12" data-out="0.30"><div><div class="num">01 — Fruit first</div><div class="big">Fruit
+62%</div><div class="small">朝どれの完熟いちごを、その日のうちに。</div></div></div>
+    <div class="telop" data-in="0.28" data-out="0.46"><div><div class="num">02 — Less sugar</div><div class="big">Half
+the sugar</div><div class="small">砂糖は果実の半分以下。甘さは控えめ、果実は主張。</div></div></div>
+    <div class="telop" data-in="0.44" data-out="0.60"><div><div class="num">03 — Small batch</div><div class="big">Copper
+pot</div><div class="small">銅鍋で、一度に 12 瓶ぶんだけ炊く。</div></div></div>
+    <div class="telop" data-in="0.58" data-out="0.76"><div><div class="num">04 — Nothing added</div><div class="big">No pectin
+No flavoring</div><div class="small">果実と、レモンと、少しの時間。それだけ。</div></div></div>
+    <div class="telop" data-in="0.76" data-out="1.01"><div><div class="num">Strawberry · ¥1,280</div><div class="big cond">Crack it
+open</div><div class="small">蓋をひねった瞬間、湯気のようないちごの香り。</div>
+      <div class="cta"><a class="pill gold" href="#shop">Buy Now</a><a class="pill ghost" href="#story">Our story</a></div></div></div>
+
+    <div class="stage"><canvas id="jarCanvas" width="660" height="880" aria-hidden="true"></canvas></div>
+
+    <div class="hero-ui">
+      <p class="copy up">完熟いちごを銅鍋でゆっくり。<br>ペクチンも香料も足さない。</p>
+      <div class="hero-scroll"><span>Scroll</span><i></i></div>
+    </div>
+    <div class="hero-progress" aria-hidden="true"><b id="heroBar"></b></div>
+
+    <div class="loader" id="loader"><div style="text-align:center"><img src="assets/icon.webp" alt="" width="72" height="72" style="margin:0 auto 14px"><span>Loading the jar</span><div class="bar"><b id="loadBar"></b></div></div></div>
+  </section>
+</div>
+
+<!-- ============ STATEMENT ============ -->
+<section class="section statement" id="story">
+  <div class="wrap">
+    <img class="rv" src="assets/icon.webp" alt="" width="88" height="88" style="margin:0 auto 14px"><span class="eyebrow rv">Our story</span>
+    <h2 class="display xl rv d1" style="margin-top:14px">No fillers.<br>No shortcuts.</h2>
+    <p class="copy up rv d2" style="margin:24px auto 0;text-align:center;max-width:44ch">長野の山の朝に摘んだ果実を、銅鍋で小ロットずつ。<br>ペクチンも香料も足さず、果実とレモンと少しの時間だけで炊き上げます。</p>
+    <div class="row rv d2"><span class="pill ghost">Fruit 62%</span><span class="pill ghost">No pectin</span><span class="pill ghost">No flavoring</span><span class="pill ghost">12 jars / batch</span></div>
+  </div>
+</section>
+
+<hr class="dots">
+
+<!-- ============ FLAVORS ============ -->
+<section class="section" id="shop">
+  <div class="wrap">
+    <span class="eyebrow rv">Three jars, one riot</span>
+    <h2 class="display lg rv d1">Pick your<br>flavor</h2>
+    <div class="flavors">
+      <div class="flavor rv">
+        <span class="tagline">Best seller</span>
+        <img src="assets/jar-strawberry.webp" alt="RUBY BEAR ストロベリー" loading="lazy">
+        <h4>Strawberry</h4>
+        <p class="copy up">完熟いちご 62%。看板の一瓶。</p>
+        <a class="pill gold" href="#">¥1,280 · Buy</a>
+      </div>
+      <div class="flavor rv d1">
+        <span class="tagline" style="background:var(--spice)">Classic</span>
+        <img src="assets/jar-apricot.webp" alt="RUBY BEAR アプリコット" loading="lazy">
+        <h4>Apricot</h4>
+        <p class="copy up">とろける杏、ほのかな苦みが夕方に効く。</p>
+        <a class="pill gold" href="#">¥1,280 · Buy</a>
+      </div>
+      <div class="flavor rv d2">
+        <span class="tagline" style="background:var(--saffron)">New</span>
+        <img src="assets/jar-blueberry.webp" alt="RUBY BEAR ブルーベリー" loading="lazy">
+        <h4>Blueberry</h4>
+        <p class="copy up">粒をつぶさず、深い紫のまま瓶へ。</p>
+        <a class="pill gold" href="#">¥1,380 · Buy</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="dots">
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div><img src="assets/icon.webp" alt="RUBY BEAR" width="96" height="96" style="margin-bottom:16px"><div class="big">Ruby<br>Bear</div></div>
+      <ul><li><a href="#shop">Shop</a></li><li><a href="#story">Story</a></li><li><a href="#">Where to buy</a></li></ul>
+      <ul><li>Nagano, Japan</li><li><a href="mailto:hello@rubybear.example">hello@rubybear.example</a></li><li><a href="#">Privacy policy</a></li></ul>
+    </div>
+    <div class="foot-bottom"><span>2026 © Ruby Bear · All rights reserved</span><span>This is a fictional brand</span></div>
+  </div>
+</footer>
+
+<script>
+document.documentElement.classList.add('js');
+(() => {
+  const pin    = document.querySelector('.hero-pin');
+  const canvas = document.getElementById('jarCanvas');
+  const ctx    = canvas.getContext('2d');
+  const telops = [...document.querySelectorAll('.telop')].map(el => ({el, a:+el.dataset.in, b:+el.dataset.out}));
+  document.querySelectorAll('.telop .big').forEach(b => {
+    const lines = b.textContent.trim().split(/\n+/).map(l => l.trim()).filter(Boolean);
+    b.innerHTML = lines.map(l => `<span>${l}</span>`).join('');
+  });
+  const bar    = document.getElementById('heroBar');
+  const loader = document.getElementById('loader');
+  const loadBar= document.getElementById('loadBar');
+  const nav    = document.querySelector('.nav');
+  const ui     = document.querySelector('.hero-ui');
+  const clamp  = (v,a,b) => Math.min(b, Math.max(a, v));
+  const smooth = t => t*t*(3-2*t);
+
+  /* ---------- frame sequence ---------- */
+  let frames = [], count = 0, loaded = 0, ready = false, lastDrawn = -1;
+  const ok = i => frames[i] && frames[i].complete && frames[i].naturalWidth > 0;
+  function nearest(i){
+    if (ok(i)) return i;
+    for (let d = 1; d < 8; d++){ if (ok(i-d)) return i-d; if (ok(i+d)) return i+d; }
+    return -1;
+  }
+  function draw(i){
+    i = nearest(clamp(Math.round(i), 0, count - 1));
+    if (i < 0 || i === lastDrawn) return;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.drawImage(frames[i], 0, 0, canvas.width, canvas.height);
+    lastDrawn = i;
+  }
+  fetch('assets/frames/manifest.json').then(r => r.json()).then(m => {
+    count = m.count;
+    canvas.width = m.width; canvas.height = m.height;
+    const pad = Math.max(4, String(count - 1).length);
+    // two passes: every 4th frame first so the hero appears fast, then the rest
+    const order = [];
+    for (let i = 0; i < count; i += 4) order.push(i);
+    for (let i = 0; i < count; i++) if (i % 4) order.push(i);
+    const firstPass = Math.ceil(count / 4);
+    order.forEach(i => {
+      const img = new Image();
+      img.onload = img.onerror = () => {
+        loaded++;
+        loadBar.style.width = (loaded / count * 100) + '%';
+        if (!ready && loaded >= firstPass){ ready = true; loader.classList.add('done'); setTimeout(() => loader.hidden = true, 700); }
+        if (ready){ lastDrawn = -1; render(true); }
+      };
+      img.src = `assets/frames/${String(i).padStart(pad,'0')}.webp`;
+      frames[i] = img;
+    });
+  });
+
+  /* ---------- scroll → timeline ---------- */
+  let progress = 0, shown = 0, raf = null;
+  function measure(){
+    const r = pin.getBoundingClientRect();
+    progress = clamp(-r.top / (pin.offsetHeight - innerHeight), 0, 1);
+  }
+  function render(force){
+    shown += (progress - shown) * (force ? 1 : .18);
+    const p = shown;
+    if (ready && count) draw(p * (count - 1));
+
+    // captions: fade/slide in from below, out upward, behind the jar
+    for (const t of telops){
+      const f = .22 * (t.b - t.a);
+      let o = 0, y = 0;
+      if (p >= t.a && p <= t.b){
+        const i = t.a <= 0 ? 1 : clamp((p - t.a) / f, 0, 1), oo = clamp((t.b - p) / f, 0, 1);
+        o = Math.min(smooth(i), smooth(oo));
+        y = (1 - smooth(i)) * 40 - (1 - smooth(oo)) * 40;
+      }
+      t.el.style.opacity = o;
+      t.el.style.visibility = o > 0.001 ? 'visible' : 'hidden';
+      t.el.style.transform = `translate3d(0, ${y}px, 0) scale(${.96 + .04 * o})`;
+    }
+    ui.style.opacity = 1 - clamp(p / .12, 0, 1);
+    bar.style.width = (p * 100).toFixed(2) + '%';
+
+    if (Math.abs(progress - shown) > .0004) raf = requestAnimationFrame(() => render(false));
+    else raf = null;
+  }
+  function onScroll(){
+    measure();
+    nav.classList.toggle('scrolled', scrollY > innerHeight * .6);
+    if (!raf) raf = requestAnimationFrame(() => render(false));
+  }
+  addEventListener('scroll', onScroll, {passive:true});
+  addEventListener('resize', onScroll);
+  measure(); render(true);
+
+  /* ---------- reveal (IO + sweep fallback for fast flicks) ---------- */
+  let pending = [...document.querySelectorAll('.rv')];
+  const show = el => { el.classList.add('in'); pending = pending.filter(x => x !== el); };
+  const io = 'IntersectionObserver' in window ? new IntersectionObserver(es => es.forEach(e => {
+    if (e.isIntersecting){ show(e.target); io.unobserve(e.target); }
+  }), {threshold:.1, rootMargin:'0px 0px -6% 0px'}) : null;
+  pending.forEach(el => io ? io.observe(el) : show(el));
+  let sweepRaf = null;
+  function sweep(){ sweepRaf = null; const lim = innerHeight * .94; pending.slice().forEach(el => { if (el.getBoundingClientRect().top < lim) show(el); }); }
+  addEventListener('scroll', () => { if (!sweepRaf) sweepRaf = requestAnimationFrame(sweep); }, {passive:true});
+  sweep();
+})();
+</script>
+</body>
+</html>
