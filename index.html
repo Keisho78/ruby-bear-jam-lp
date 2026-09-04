@@ -77,68 +77,76 @@
     .nav.scrolled .brand .logo{font-size:14px;padding:9px 12px}
   }
 
-  /* ============ HERO — long pinned scroll ============ */
-  .hero-pin{height:1000vh;height:1000svh;position:relative}
-  .hero{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden}
-
-  /* captions live BEHIND the jar */
-  .telop{
-    position:absolute;inset:0;z-index:1;display:grid;place-items:center;text-align:center;
-    padding:0 var(--pad);pointer-events:none;opacity:0;visibility:hidden;will-change:transform,opacity;
+  /* ============ JOURNEY — the jar rides along while the copy sections scroll past ============ */
+  .journey{position:relative}
+  /* the jar layer sticks to the viewport for the whole journey; the negative margin lets the sections slide under it */
+  .stage{
+    position:sticky;top:0;height:100vh;height:100svh;margin-bottom:-100vh;margin-bottom:-100svh;
+    z-index:2;pointer-events:none;display:grid;place-items:center;justify-content:center;overflow:hidden;
   }
-  .telop .big{font-family:var(--display);text-transform:uppercase;line-height:.85;letter-spacing:-.02em;font-size:clamp(56px,13vw,213px);white-space:pre-line}
-  .telop .big span{display:block}
-  .telop .big.cond{font-family:var(--condensed);letter-spacing:0;font-size:clamp(72px,16vw,280px)}
-  .telop .small{font-family:var(--body);font-weight:700;font-size:clamp(14px,1.6vw,22px);letter-spacing:.06em;margin-top:clamp(14px,2.4vw,32px)}
-  .telop .num{font-family:var(--condensed);font-size:clamp(14px,1.4vw,18px);letter-spacing:.2em;margin-bottom:clamp(12px,2vw,24px);color:var(--saffron)}
-  .telop .cta{pointer-events:auto;margin-top:clamp(18px,3vw,36px);display:flex;gap:10px;justify-content:center}
+  .stage canvas{height:min(80vh,46vw);width:auto;aspect-ratio:3/4;will-change:transform}
+  .journey-progress{position:absolute;left:0;bottom:0;height:3px;width:100%;background:rgba(40,16,6,.5)}
+  .journey-progress b{display:block;height:100%;width:0;background:var(--gold)}
 
-  /* jar frame sequence (alpha WebP frames drawn on a canvas) */
-  .stage{position:absolute;inset:0;z-index:2;display:grid;place-items:center;pointer-events:none}
-  .stage canvas{height:min(80vh,46vw);width:auto;aspect-ratio:3/4}
+  .step{position:relative;z-index:1;min-height:110vh;min-height:110svh;display:grid;align-content:center;padding:14vh var(--pad)}
+  .step .text{max-width:min(46vw,620px)}
+  .step.side-l .text{justify-self:start;text-align:left}
+  .step.side-r .text{justify-self:end;text-align:right}
+  .step .num{font-family:var(--condensed);font-size:clamp(14px,1.4vw,18px);letter-spacing:.2em;color:var(--saffron);text-transform:uppercase;display:block;margin-bottom:clamp(12px,2vw,22px)}
+  .step h2{font-family:var(--display);text-transform:uppercase;line-height:.85;letter-spacing:-.02em;font-size:clamp(44px,7.6vw,132px);color:var(--gold)}
+  .step h2 span{display:block}
+  .step .jp{font-weight:700;font-size:clamp(14px,1.35vw,20px);letter-spacing:.06em;line-height:1.7;margin-top:clamp(16px,2.4vw,30px);max-width:34ch}
+  .step.side-r .jp{margin-left:auto}
+  .step .pills{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px}
+  .step.side-r .pills{justify-content:flex-end}
+
+  /* first and last steps: big centred poster type (jar sits on top of it) */
+  .step.hero-step,.step.final{min-height:120vh;min-height:120svh;text-align:center}
+  .step.hero-step .text,.step.final .text{max-width:none;justify-self:center}
+  .step.hero-step h2{font-size:clamp(56px,13.5vw,213px)}
+  .step.final{min-height:170vh;min-height:170svh}
+  .step.final h2{font-family:var(--condensed);letter-spacing:0;font-size:clamp(80px,17vw,300px);line-height:.85}
+  .step.final .jp{margin-left:auto;margin-right:auto}
+  .step.final .cta{display:flex;gap:10px;justify-content:center;margin-top:clamp(18px,3vw,36px);position:relative;z-index:3}
   @media(min-width:701px){
-    /* desktop: headline slightly above centre, Japanese line pinned under the jar */
-    .telop{display:block}
-    .telop > div{position:absolute;inset:0 var(--pad)}
-    .telop .num{position:absolute;left:0;top:24vh;margin:0}
-    .telop .big{position:absolute;left:0;right:0;top:47%;transform:translateY(-50%)}
-    .telop .big{display:flex;flex-direction:column;gap:.02em}
-    .telop .big span:first-child{align-self:flex-start}
-    .telop .big span:last-child{align-self:flex-end}
-    .telop .big span:only-child{align-self:center}
-    .telop .num{text-align:left}
-    /* Japanese copy + CTA live in the bottom-left column, which the jar never enters */
-    .telop .small{position:absolute;left:0;right:auto;top:auto;bottom:16vh;margin:0;max-width:26vw;text-align:left;font-size:clamp(13px,1.25vw,18px);line-height:1.6}
-    .telop .cta{position:absolute;left:0;right:auto;top:auto;bottom:7vh;margin:0;justify-content:flex-start}
+    /* Japanese + CTA sit in the bottom-left column of the viewport while the headline is centred */
+    .step.final .jp{position:absolute;left:var(--pad);top:calc(50% + 16vh);margin:0;text-align:left;max-width:26vw;line-height:1.7}
+    .step.final .cta{position:absolute;left:var(--pad);top:calc(50% + 27vh);margin:0;justify-content:flex-start}
   }
+  .step.hero-step .scroll-hint{position:absolute;right:var(--pad);top:calc(100vh - 56px);top:calc(100svh - 56px);font-family:var(--condensed);letter-spacing:.14em;font-size:13px;display:flex;align-items:center;gap:10px}
+  .step.hero-step .scroll-hint i{width:44px;height:2px;background:var(--gold);display:block;animation:pulse 1.4s ease-in-out infinite}
+  @keyframes pulse{0%,100%{transform:scaleX(.4);transform-origin:left}50%{transform:scaleX(1)}}
+  .step.hero-step .jp{font-size:clamp(14px,1.6vw,22px);margin-left:auto;margin-right:auto}
 
   @media(max-width:700px){
-    /* phones: the English headline becomes two huge vertical columns that fill the backdrop
-       (word 1 top-left, word 2 bottom-right), the jar travels over them, and the Japanese
-       line runs small and vertical down the right edge. Desktop rules above are untouched. */
-    .telop{display:block;padding:0}
-    .telop > div{position:absolute;inset:0}
-    .telop .num{display:none}
-    .telop .big{position:static;transform:none;font-size:22vw;letter-spacing:-.02em;line-height:.9}
-    .telop .big span{display:block;white-space:nowrap;position:absolute;writing-mode:vertical-lr;text-orientation:mixed}
-    .telop .big span:first-child{left:-.04em;top:8vh;top:8svh}
-    .telop .big span:last-child{right:26px;bottom:11vh;bottom:11svh}
-    .telop .big span:only-child{left:-.04em;top:8vh;top:8svh;right:auto;bottom:auto}
-    .telop .big.cond{font-size:30vw;letter-spacing:.01em}
-    .telop .small{position:absolute;right:8px;top:12vh;top:12svh;margin:0;writing-mode:vertical-rl;text-orientation:mixed;font-size:12px;letter-spacing:.14em;line-height:1.4;max-height:70vh;max-height:70svh;text-align:left}
-    .telop .cta{position:absolute;left:0;right:0;bottom:3vh;bottom:3svh;margin:0;justify-content:center}
-    /* jar: 106vw wide 3:4 frame (the jar never uses the outer 3% of the frame, so nothing is clipped),
-       centred and nudged below the nav */
-    .stage{align-items:center;justify-content:center;padding-top:6vh;padding-top:6svh;padding-bottom:0}
-    .stage canvas{height:auto;width:106vw;max-width:none}
+    /* phones: the jar rides in the lower half; each section's headline is a giant vertical column
+       on the left, the Japanese line a small vertical column on the right */
+    .stage canvas{height:auto;width:100vw;max-width:none}
+    .step{min-height:115vh;min-height:115svh;padding:16vh 0 8vh;padding:16svh 0 8svh;align-content:start}
+    .step .text{max-width:none;position:relative;min-height:70vh;min-height:70svh;width:100%}
+    .step.side-l .text,.step.side-r .text{text-align:left}
+    .step .num{position:absolute;left:14px;top:0;writing-mode:vertical-rl;text-orientation:mixed;font-size:11px;margin:0}
+    .step h2{position:absolute;left:0;top:0;font-size:18vw;line-height:.9}
+    .step h2 span{display:block;white-space:nowrap;position:absolute;writing-mode:vertical-lr;text-orientation:mixed}
+    .step h2 span:first-child{left:.9em;top:0}
+    .step h2 span:last-child{left:.9em;top:0;margin-left:1.05em}
+    .step h2 span:only-child{left:.9em}
+    /* Japanese: small vertical column(s) anchored to the right edge; a fixed height lets long lines
+       break into a second column that grows leftwards instead of running off-screen */
+    .step .jp{position:absolute;right:10px;top:0;margin:0;writing-mode:vertical-rl;text-orientation:mixed;font-size:12px;letter-spacing:.12em;line-height:1.7;height:58vh;height:58svh;width:auto;max-width:none;text-align:left}
+    .step .pills{display:none}
+    /* first / last: horizontal poster type */
+    .step.hero-step,.step.final{padding-top:11vh;padding-top:11svh}
+    .step.hero-step .text,.step.final .text{min-height:0}
+    .step.hero-step h2,.step.final h2{position:static;font-size:19vw}
+    .step.hero-step h2 span,.step.final h2 span{position:static;writing-mode:horizontal-tb;margin:0}
+    .step.final h2{font-size:30vw}
+    .step.hero-step .num,.step.final .num{position:static;writing-mode:horizontal-tb;text-align:center;display:block}
+    .step.hero-step .jp{position:static;writing-mode:horizontal-tb;text-align:center;margin:12px auto 0;font-size:13px;max-width:30ch;line-height:1.6}
+    .step.final .text{min-height:70vh;min-height:70svh}
+    .step.final .cta{position:absolute;left:0;right:0;top:calc(50% + 43vh);top:calc(50% + 43svh);margin:0}
+    .step.final{min-height:170vh;min-height:170svh;align-content:center;padding-top:0}
   }
-  .hero-ui{position:absolute;left:0;right:0;bottom:0;z-index:3;padding:0 var(--pad) clamp(20px,4vh,40px);display:flex;justify-content:space-between;align-items:end;pointer-events:none}
-  .hero-ui .copy{max-width:26ch;font-size:12px}
-  .hero-scroll{font-family:var(--condensed);letter-spacing:.14em;font-size:13px;display:flex;align-items:center;gap:10px}
-  .hero-scroll i{width:44px;height:2px;background:var(--gold);display:block;animation:pulse 1.4s ease-in-out infinite}
-  @keyframes pulse{0%,100%{transform:scaleX(.4);transform-origin:left}50%{transform:scaleX(1)}}
-  .hero-progress{position:absolute;left:0;bottom:0;z-index:4;height:3px;width:100%;background:rgba(40,16,6,.5)}
-  .hero-progress b{display:block;height:100%;width:0;background:var(--gold)}
 
   .loader{position:absolute;inset:0;z-index:5;display:grid;place-items:center;background:var(--rust);transition:opacity .5s}
   .loader.done{opacity:0;pointer-events:none}
@@ -155,9 +163,6 @@
   .flavor p{margin:10px auto 16px;max-width:30ch}
   .flavor .tagline{display:inline-block;background:var(--chili);color:#fff;border-radius:var(--pill);font-family:var(--condensed);font-size:13px;letter-spacing:.1em;padding:6px 12px;margin-bottom:16px}
   @media(max-width:900px){.flavors{grid-template-columns:1fr;gap:56px}}
-
-  .statement{text-align:center}
-  .statement .row{display:flex;justify-content:center;gap:10px;margin-top:28px;flex-wrap:wrap}
 
   footer{padding:60px 0 30px}
   .foot-grid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:24px}
@@ -193,52 +198,76 @@
   </div>
 </nav>
 
-<!-- ============ HERO ============ -->
-<div class="hero-pin" id="top">
-  <section class="hero" id="hero" aria-label="RUBY BEAR いちごジャム">
-
-    <!-- captions (behind the jar). data-in / data-out = scroll progress 0..1 -->
-    <div class="telop" data-in="0"    data-out="0.14"><div><div class="num">Slow-cooked fruit jam · Nagano</div><div class="big">Sweet
-Riot</div><div class="small">ひと瓶まるごと、いちごの暴動。</div></div></div>
-    <div class="telop" data-in="0.12" data-out="0.30"><div><div class="num">01 — Fruit first</div><div class="big">Fruit
-62%</div><div class="small">朝どれの完熟いちごを、その日のうちに。</div></div></div>
-    <div class="telop" data-in="0.28" data-out="0.46"><div><div class="num">02 — Less sugar</div><div class="big">Half
-the sugar</div><div class="small">砂糖は果実の半分以下。甘さは控えめ、果実は主張。</div></div></div>
-    <div class="telop" data-in="0.44" data-out="0.60"><div><div class="num">03 — Small batch</div><div class="big">Copper
-pot</div><div class="small">銅鍋で、一度に 12 瓶ぶんだけ炊く。</div></div></div>
-    <div class="telop" data-in="0.58" data-out="0.76"><div><div class="num">04 — Nothing added</div><div class="big">No pectin
-No flavoring</div><div class="small">果実と、レモンと、少しの時間。それだけ。</div></div></div>
-    <div class="telop" data-in="0.76" data-out="1.01"><div><div class="num">Strawberry · ¥1,280</div><div class="big cond">Crack it
-open</div><div class="small">蓋をひねった瞬間、湯気のようないちごの香り。</div>
-      <div class="cta"><a class="pill gold" href="#shop">Buy Now</a><a class="pill ghost" href="#story">Our story</a></div></div></div>
-
-    <div class="stage"><canvas id="jarCanvas" width="660" height="880" aria-hidden="true"></canvas></div>
-
-    <div class="hero-ui">
-      <span></span>
-      <div class="hero-scroll"><span>Scroll to open</span><i></i></div>
-    </div>
-    <div class="hero-progress" aria-hidden="true"><b id="heroBar"></b></div>
-
+<!-- ============ JOURNEY: jar layer + copy sections ============ -->
+<main class="journey" id="journey">
+  <div class="stage" id="stage" aria-hidden="true">
+    <canvas id="jarCanvas" width="660" height="880"></canvas>
+    <div class="journey-progress"><b id="heroBar"></b></div>
     <div class="loader" id="loader"><div style="text-align:center"><img src="assets/icon.webp" alt="" width="72" height="72" style="margin:0 auto 14px"><span>Loading the jar</span><div class="bar"><b id="loadBar"></b></div></div></div>
-  </section>
-</div>
-
-<!-- ============ STATEMENT ============ -->
-<section class="section statement" id="story">
-  <div class="wrap">
-    <img class="rv" src="assets/icon.webp" alt="" width="88" height="88" style="margin:0 auto 14px"><span class="eyebrow rv">Our story</span>
-    <h2 class="display xl rv d1" style="margin-top:14px">No fillers.<br>No shortcuts.</h2>
-    <p class="copy up rv d2" style="margin:24px auto 0;text-align:center;max-width:44ch">長野の山の朝に摘んだ果実を、銅鍋で小ロットずつ。<br>ペクチンも香料も足さず、果実とレモンと少しの時間だけで炊き上げます。</p>
-    <div class="row rv d2"><span class="pill ghost">Fruit 62%</span><span class="pill ghost">No pectin</span><span class="pill ghost">No flavoring</span><span class="pill ghost">12 jars / batch</span></div>
   </div>
-</section>
+
+  <!-- data-x: jar horizontal offset (vw) · data-s: jar scale · data-f: frame reached at this section's centre -->
+  <section class="step hero-step" id="top" data-x="0" data-s="1" data-f="0">
+    <div class="text">
+      <span class="num">Slow-cooked fruit jam · Nagano</span>
+      <h2><span>Sweet</span><span>Riot</span></h2>
+      <p class="jp">ひと瓶まるごと、いちごの暴動。</p>
+    </div>
+    <div class="scroll-hint"><span>Scroll to open</span><i></i></div>
+  </section>
+
+  <section class="step side-l" id="story" data-x="22" data-s=".84" data-f="78">
+    <div class="text">
+      <span class="num rv">01 — Fruit first</span>
+      <h2 class="rv d1"><span>Fruit</span><span>62%</span></h2>
+      <p class="jp rv d2">朝どれの完熟いちごを、その日のうちに銅鍋へ。果実の割合は 62%。香りと色は、果実が主役です。</p>
+      <div class="pills rv d2"><span class="pill ghost">Fruit 62%</span><span class="pill ghost">Nagano</span></div>
+    </div>
+  </section>
+
+  <section class="step side-r" data-x="-22" data-s=".84" data-f="150">
+    <div class="text">
+      <span class="num rv">02 — Less sugar</span>
+      <h2 class="rv d1"><span>Half</span><span>the sugar</span></h2>
+      <p class="jp rv d2">砂糖は果実の半分以下。甘さは控えめ、果実は主張。パンにのせても、ヨーグルトに沈めても。</p>
+      <div class="pills rv d2"><span class="pill ghost">Less sugar</span><span class="pill ghost">No syrup</span></div>
+    </div>
+  </section>
+
+  <section class="step side-l" data-x="22" data-s=".84" data-f="172">
+    <div class="text">
+      <span class="num rv">03 — Small batch</span>
+      <h2 class="rv d1"><span>Copper</span><span>pot</span></h2>
+      <p class="jp rv d2">銅鍋で、一度に 12 瓶ぶんだけ炊く。火加減は人の手で、炊き上がりは香りで決めます。</p>
+      <div class="pills rv d2"><span class="pill ghost">12 jars / batch</span><span class="pill ghost">Hand-stirred</span></div>
+    </div>
+  </section>
+
+  <section class="step side-r" data-x="-22" data-s=".84" data-f="236">
+    <div class="text">
+      <span class="num rv">04 — Nothing added</span>
+      <h2 class="rv d1"><span>No pectin</span><span>No flavoring</span></h2>
+      <p class="jp rv d2">ペクチンも香料も足さない。果実と、レモンと、少しの時間。それだけで、いちごはこんなに騒がしくなる。</p>
+      <div class="pills rv d2"><span class="pill ghost">No pectin</span><span class="pill ghost">No flavoring</span></div>
+    </div>
+  </section>
+
+  <section class="step final" id="open" data-x="0" data-s="1" data-f="314">
+    <div class="text">
+      <span class="num rv">Strawberry · ¥1,280</span>
+      <h2 class="rv d1"><span>Crack it</span><span>open</span></h2>
+      <p class="jp rv d2">蓋をひねった瞬間、湯気のようないちごの香り。</p>
+      <div class="cta rv d2"><a class="pill gold" href="#shop">Buy Now</a><a class="pill ghost" href="#story">Our story</a></div>
+    </div>
+  </section>
+</main>
 
 <hr class="dots">
 
 <!-- ============ FLAVORS ============ -->
 <section class="section" id="shop">
   <div class="wrap">
+    <img class="rv" src="assets/icon.webp" alt="" width="88" height="88" style="margin:0 0 14px">
     <span class="eyebrow rv">Three jars, one riot</span>
     <h2 class="display lg rv d1">Pick your<br>flavor</h2>
     <div class="flavors">
@@ -283,21 +312,19 @@ open</div><div class="small">蓋をひねった瞬間、湯気のようないち
 <script>
 document.documentElement.classList.add('js');
 (() => {
-  const pin    = document.querySelector('.hero-pin');
-  const canvas = document.getElementById('jarCanvas');
-  const ctx    = canvas.getContext('2d');
-  const telops = [...document.querySelectorAll('.telop')].map(el => ({el, a:+el.dataset.in, b:+el.dataset.out}));
-  document.querySelectorAll('.telop .big').forEach(b => {
-    const lines = b.textContent.trim().split(/\n+/).map(l => l.trim()).filter(Boolean);
-    b.innerHTML = lines.map(l => `<span>${l}</span>`).join('');
-  });
-  const bar    = document.getElementById('heroBar');
-  const loader = document.getElementById('loader');
-  const loadBar= document.getElementById('loadBar');
-  const nav    = document.querySelector('.nav');
-  const ui     = document.querySelector('.hero-ui');
-  const clamp  = (v,a,b) => Math.min(b, Math.max(a, v));
-  const smooth = t => t*t*(3-2*t);
+  const journey = document.getElementById('journey');
+  const stage   = document.getElementById('stage');
+  const canvas  = document.getElementById('jarCanvas');
+  const ctx     = canvas.getContext('2d');
+  const steps   = [...document.querySelectorAll('.step')];
+  const bar     = document.getElementById('heroBar');
+  const loader  = document.getElementById('loader');
+  const loadBar = document.getElementById('loadBar');
+  const nav     = document.querySelector('.nav');
+  const clamp   = (v,a,b) => Math.min(b, Math.max(a, v));
+  const smooth  = t => t*t*(3-2*t);
+  const lerp    = (a,b,t) => a + (b-a)*t;
+  const mobileQ = matchMedia('(max-width:700px)');
 
   /* ---------- frame sequence ---------- */
   let frames = [], count = 0, loaded = 0, ready = false, lastDrawn = -1;
@@ -318,7 +345,6 @@ document.documentElement.classList.add('js');
     count = m.count;
     canvas.width = m.width; canvas.height = m.height;
     const pad = Math.max(4, String(count - 1).length);
-    // two passes: every 4th frame first so the hero appears fast, then the rest
     const order = [];
     for (let i = 0; i < count; i += 4) order.push(i);
     for (let i = 0; i < count; i++) if (i % 4) order.push(i);
@@ -336,57 +362,62 @@ document.documentElement.classList.add('js');
     });
   });
 
-  /* ---------- scroll → timeline ---------- */
-  let progress = 0, shown = 0, raf = null;
-  const hero = document.getElementById('hero');
-  function measure(){
-    const r = pin.getBoundingClientRect();
-    progress = clamp(-r.top / (pin.offsetHeight - hero.offsetHeight), 0, 1);
+  /* ---------- keyframes: one per section, taken at the section's centre ---------- */
+  let keys = [];
+  function layout(){
+    const vh = stage.offsetHeight;
+    keys = steps.map(s => {
+      const top = s.getBoundingClientRect().top + scrollY;
+      return { y: top + s.offsetHeight / 2 - vh / 2, x: +s.dataset.x || 0, sc: +s.dataset.s || 1, f: +s.dataset.f || 0 };
+    });
   }
-  function render(force){
-    shown += (progress - shown) * (force ? 1 : .18);
-    const p = shown;
-    if (ready && count) draw(p * (count - 1));
-
-    // captions: fade/slide in from below, out upward, behind the jar
-    for (const t of telops){
-      const f = .22 * (t.b - t.a);
-      let o = 0, y = 0;
-      if (p >= t.a && p <= t.b){
-        const i = t.a <= 0 ? 1 : clamp((p - t.a) / f, 0, 1), oo = clamp((t.b - p) / f, 0, 1);
-        o = Math.min(smooth(i), smooth(oo));
-        y = (1 - smooth(i)) * 40 - (1 - smooth(oo)) * 40;
+  // jar pose + frame for a given scroll position
+  function sample(y){
+    if (!keys.length) return {x:0, sc:1, f:0, p:0};
+    const first = keys[0], last = keys[keys.length - 1];
+    const p = clamp((y - first.y) / (last.y - first.y), 0, 1);
+    if (y <= first.y) return {x:first.x, sc:first.sc, f:first.f, p};
+    if (y >= last.y)  return {x:last.x,  sc:last.sc,  f:last.f,  p};
+    for (let i = 0; i < keys.length - 1; i++){
+      const a = keys[i], b = keys[i+1];
+      if (y < b.y){
+        const t = (y - a.y) / (b.y - a.y);
+        const e = smooth(clamp((t - .3) / .4, 0, 1));    // pose holds, then glides across the boundary
+        return { x: lerp(a.x, b.x, e), sc: lerp(a.sc, b.sc, e), f: lerp(a.f, b.f, t), p };
       }
-      t.el.style.opacity = o;
-      t.el.style.visibility = o > 0.001 ? 'visible' : 'hidden';
-      t.el.style.transform = `translate3d(0, ${y}px, 0) scale(${.96 + .04 * o})`;
     }
-    ui.style.opacity = 1 - clamp(p / .12, 0, 1);
-    bar.style.width = (p * 100).toFixed(2) + '%';
+    return {x:last.x, sc:last.sc, f:last.f, p};
+  }
 
-    if (Math.abs(progress - shown) > .0004) raf = requestAnimationFrame(() => render(false));
+  /* ---------- scroll → render ---------- */
+  let target = 0, shown = 0, raf = null;
+  function render(force){
+    shown += (target - shown) * (force ? 1 : .18);
+    const s = sample(shown);
+    const mobile = mobileQ.matches;
+    const x  = mobile ? s.x * .2 : s.x;              // phones: only a hint of sideways drift
+    const dy = mobile ? 7 : 0;                        // phones: ride a little lower, under the headline
+    const sc = mobile ? lerp(.92, 1, (s.sc - .84) / .16) : s.sc;
+    // exit: over the last half-screen of the journey the jar sinks and fades
+    const vh = stage.offsetHeight;
+    const lastY = keys.length ? keys[keys.length - 1].y : Infinity;
+    const out = clamp((shown - (lastY + vh * .3)) / (vh * .45), 0, 1);
+    canvas.style.transform = `translate3d(${x}vw, ${dy + out * 30}vh, 0) scale(${sc})`;
+    canvas.style.opacity = 1 - smooth(out);
+    if (ready && count) draw(s.f);
+    bar.style.width = (s.p * 100).toFixed(2) + '%';
+    if (Math.abs(target - shown) > .5) raf = requestAnimationFrame(() => render(false));
     else raf = null;
   }
-  /* safety net: if the browser fails to honour position:sticky, pin the hero with position:fixed */
-  let useFixed = false;
-  function pinFallback(){
-    const r = pin.getBoundingClientRect(), h = hero.offsetHeight;
-    const inRange = r.top < -2 && r.bottom > h + 2;
-    if (!useFixed && inRange && hero.getBoundingClientRect().top < -2) useFixed = true;
-    if (!useFixed) return;
-    if (r.top >= 0)            hero.style.cssText = '';
-    else if (r.bottom <= h)    hero.style.cssText = 'position:absolute;top:auto;bottom:0;left:0;right:0';
-    else                       hero.style.cssText = 'position:fixed;top:0;left:0;right:0';
-  }
   function onScroll(){
-    measure();
-    pinFallback();
+    target = scrollY;
     nav.classList.toggle('scrolled', scrollY > innerHeight * .6);
     if (!raf) raf = requestAnimationFrame(() => render(false));
   }
   addEventListener('scroll', onScroll, {passive:true});
-  addEventListener('resize', onScroll);
-  measure(); render(true);
+  addEventListener('resize', () => { layout(); onScroll(); });
+  addEventListener('load',   () => { layout(); onScroll(); });
+  layout(); target = shown = scrollY; render(true);
 
   /* ---------- reveal (IO + sweep fallback for fast flicks) ---------- */
   let pending = [...document.querySelectorAll('.rv')];

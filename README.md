@@ -10,12 +10,14 @@ node .claude/serve.js
 
 http://localhost:8765 を開く。
 
-## 構成（シンプル版）
+## 構成（v4: 瓶がセクションを渡り歩く）
 
-1. Hero（1000vh ピン留め）— 瓶が回転しながら落下 → 着地 → 蓋が回って外れる → ジャムが溢れて流れ落ちる。背景にテロップ 6 枚
-2. Our story（一枚看板 + ピル）
-3. Pick your flavor（透過 PNG/WebP の瓶 3 種）
-4. Footer
+1. Journey（`main.journey`）— 瓶のレイヤー（`.stage`、sticky）が画面に留まり、その下を 6 つの説明セクション（`.step`）が上から下へ流れる。参考サイト eathungrytiger.com と同じ構造
+   - Hero「SWEET RIOT」（中央）→ 01 FRUIT 62%（文字左・瓶右）→ 02 HALF THE SUGAR（文字右・瓶左）→ 03 COPPER POT（左・右）→ 04 NO PECTIN（右・左）→ CRACK IT OPEN（中央、瓶が手前で蓋開き）
+   - 各セクションの中央を通過する時点のフレーム番号を `data-f`、瓶の横位置を `data-x`（vw）、大きさを `data-s` で指定。セクション境界で瓶が滑らかに移動
+   - 最終セクションの後半で瓶が沈みながらフェードアウトし、次のセクションが下から入ってくる
+2. Pick your flavor（透過 PNG/WebP の瓶 3 種）
+3. Footer
 
 ## ファイル
 
@@ -32,18 +34,18 @@ http://localhost:8765 を開く。
 
 動画は純緑（#00FF00）背景で生成し、ffmpeg の `chromakey` + `despill` でアルファ化 → WebP（アルファ付き）フレーム列に変換。ページ側は `<video>` ではなく `<canvas>` に透過フレームを描くため、映像の矩形やフラット背景が壁テクスチャの上に出ません。静止画の瓶は Higgsfield の Image Background Remover で切り抜き。
 
-## スクロールタイムライン（進行度 0→1）
+## スクロールタイムライン
 
-| 進行度 | 映像 | テロップ |
+| セクション | 瓶の位置 | 到達フレーム |
 |---|---|---|
-| 0.00–0.14 | 空 → 瓶が上から回転落下 | SWEET RIOT |
-| 0.12–0.30 | 落下・回転 | FRUIT 62% |
-| 0.28–0.46 | 減速・着地 | HALF THE SUGAR |
-| 0.44–0.60 | 着地して静止 | COPPER POT |
-| 0.58–0.76 | 蓋が回って浮く | NO PECTIN / NO FLAVORING |
-| 0.76–1.00 | ジャムが溢れて流れ落ちる | CRACK IT OPEN + CTA |
+| Hero SWEET RIOT | 中央（まだ空） | 0 |
+| 01 FRUIT 62% | 右 22vw・0.84 倍 | 78（回転落下中） |
+| 02 HALF THE SUGAR | 左 22vw | 150（着地） |
+| 03 COPPER POT | 右 22vw | 172（静止） |
+| 04 NO PECTIN / NO FLAVORING | 左 22vw | 236（蓋が浮く） |
+| CRACK IT OPEN | 中央・等倍 | 314（ジャム流出） |
 
-テロップは `.telop` の `data-in` / `data-out` で調整。デスクトップでは見出し 2 行を瓶の左右に振り分け、日本語 1 行と CTA を左下の列（瓶が通らない領域）に固定。スマホ（700px 以下）では英語見出しを縦書きの巨大 2 カラム（1 語目＝左上、2 語目＝右下）で背景いっぱいに敷き、その上を 106vw 幅の瓶が移動、日本語は右端に小さく縦書き。
+スマホ（700px 以下）は瓶を中央やや下に固定し、各セクションの英語見出しを左の縦書き巨大 2 カラム、日本語を右端の小さな縦書きで配置。
 
 ## 生成ログ（Higgsfield MCP・全て事前にコスト確認）
 
