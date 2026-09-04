@@ -22,11 +22,11 @@
     --pad:clamp(16px,3vw,48px);
   }
   *{box-sizing:border-box;margin:0;padding:0}
-  html{overflow-x:hidden}
+  html{overflow-x:clip}
   body{
     background:var(--rust);color:var(--gold);
     font-family:var(--body);font-weight:500;font-size:13px;line-height:1.3;letter-spacing:.01em;
-    overflow-x:hidden;-webkit-font-smoothing:antialiased;
+    overflow-x:clip;-webkit-font-smoothing:antialiased;
   }
   ::selection{background:var(--gold);color:var(--clove)}
   a{color:inherit;text-decoration:none}
@@ -78,8 +78,8 @@
   }
 
   /* ============ HERO — long pinned scroll ============ */
-  .hero-pin{height:1000vh;position:relative}
-  .hero{position:sticky;top:0;height:100vh;overflow:hidden}
+  .hero-pin{height:1000vh;height:1000svh;position:relative}
+  .hero{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden}
 
   /* captions live BEHIND the jar */
   .telop{
@@ -112,13 +112,13 @@
   }
 
   @media(max-width:700px){
-    .telop{align-items:start;padding-top:15vh}
+    .telop{align-items:start;padding-top:15vh;padding-top:15svh}
     .telop .big{font-size:15vw}
     .telop .big.cond{font-size:22vw}
     .telop .small{font-size:13px}
-    .stage{align-items:end;padding-bottom:9vh}
-    .stage canvas{height:min(70vh,118vw)}
-    .telop .cta{position:absolute;left:0;right:0;bottom:4vh;margin:0}
+    .stage{align-items:end;padding-bottom:9vh;padding-bottom:9svh}
+    .stage canvas{height:min(70vh,118vw);height:min(70svh,118vw)}
+    .telop .cta{position:absolute;left:0;right:0;bottom:4vh;bottom:4svh;margin:0}
   }
   .hero-ui{position:absolute;left:0;right:0;bottom:0;z-index:3;padding:0 var(--pad) clamp(20px,4vh,40px);display:flex;justify-content:space-between;align-items:end;pointer-events:none}
   .hero-ui .copy{max-width:26ch;font-size:12px}
@@ -326,9 +326,10 @@ document.documentElement.classList.add('js');
 
   /* ---------- scroll → timeline ---------- */
   let progress = 0, shown = 0, raf = null;
+  const hero = document.getElementById('hero');
   function measure(){
     const r = pin.getBoundingClientRect();
-    progress = clamp(-r.top / (pin.offsetHeight - innerHeight), 0, 1);
+    progress = clamp(-r.top / (pin.offsetHeight - hero.offsetHeight), 0, 1);
   }
   function render(force){
     shown += (progress - shown) * (force ? 1 : .18);
@@ -354,8 +355,20 @@ document.documentElement.classList.add('js');
     if (Math.abs(progress - shown) > .0004) raf = requestAnimationFrame(() => render(false));
     else raf = null;
   }
+  /* safety net: if the browser fails to honour position:sticky, pin the hero with position:fixed */
+  let useFixed = false;
+  function pinFallback(){
+    const r = pin.getBoundingClientRect(), h = hero.offsetHeight;
+    const inRange = r.top < -2 && r.bottom > h + 2;
+    if (!useFixed && inRange && hero.getBoundingClientRect().top < -2) useFixed = true;
+    if (!useFixed) return;
+    if (r.top >= 0)            hero.style.cssText = '';
+    else if (r.bottom <= h)    hero.style.cssText = 'position:absolute;top:auto;bottom:0;left:0;right:0';
+    else                       hero.style.cssText = 'position:fixed;top:0;left:0;right:0';
+  }
   function onScroll(){
     measure();
+    pinFallback();
     nav.classList.toggle('scrolled', scrollY > innerHeight * .6);
     if (!raf) raf = requestAnimationFrame(() => render(false));
   }
