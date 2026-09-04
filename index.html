@@ -93,30 +93,33 @@
   .step .text{position:relative;height:100vh;height:100svh;width:100%}
   .step .num{position:absolute;left:0;top:22vh;margin:0;font-family:var(--condensed);font-size:clamp(14px,1.4vw,18px);letter-spacing:.2em;color:var(--saffron);text-transform:uppercase}
   /* English headline: huge, horizontal, centred behind the jar; line 1 hugs the left, line 2 the right */
-  .step h2{position:absolute;left:0;right:0;top:47%;transform:translateY(-50%);display:flex;flex-direction:column;gap:.02em;
+  .step h2{position:absolute;left:0;right:0;top:0;bottom:0;display:flex;flex-direction:column;justify-content:center;padding-bottom:8vh;gap:.02em;
     font-family:var(--display);text-transform:uppercase;line-height:.85;letter-spacing:-.02em;font-size:clamp(56px,13vw,213px);color:var(--gold)}
   .step h2 span{display:block;white-space:nowrap}
   .step h2 span:first-child{align-self:flex-start}
   .step h2 span:last-child{align-self:flex-end}
   .step h2 span:only-child{align-self:center}
   /* Japanese copy + pills: bottom-left column, which the centred jar never covers */
-  .step .jp{position:absolute;left:0;top:calc(50% + 30vh);margin:0;max-width:26vw;text-align:left;font-weight:700;font-size:clamp(13px,1.25vw,18px);letter-spacing:.06em;line-height:1.7}
-  .step .pills{position:absolute;left:0;top:calc(50% + 42vh);display:flex;gap:8px;flex-wrap:wrap;margin:0}
+  .step .aside{position:absolute;left:0;top:calc(50% + 30vh);max-width:26vw;text-align:left}
+  .step .jp{margin:0;font-weight:700;font-size:clamp(13px,1.25vw,18px);letter-spacing:.06em;line-height:1.7}
+  .step .pills{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0 0}
 
   /* first step: centred poster, no jar yet */
   .step.hero-step{min-height:120vh;min-height:120svh;text-align:center}
-  .step.hero-step .num{left:0;right:0;top:auto;bottom:calc(53% + 1.2em);text-align:center}
-  .step.hero-step h2{font-size:clamp(56px,13.5vw,213px)}
+  .step.hero-step .text{display:flex;flex-direction:column;align-items:center;justify-content:center;padding-bottom:6vh}
+  .step.hero-step .num,.step.hero-step h2,.step.hero-step .jp{position:static;inset:auto;transform:none}
+  .step.hero-step .num{margin-bottom:clamp(12px,2vw,22px)}
+  .step.hero-step h2{display:block;padding:0;font-size:clamp(56px,13.5vw,213px)}
   .step.hero-step h2 span{align-self:center}
-  .step.hero-step .jp{left:0;right:0;max-width:none;text-align:center;top:calc(47% + 1.1em + 3vh);font-size:clamp(14px,1.6vw,22px)}
+  .step.hero-step .jp{margin-top:clamp(16px,2.4vw,30px);max-width:none;text-align:center;font-size:clamp(14px,1.6vw,22px)}
   .step.hero-step .scroll-hint{position:absolute;right:0;bottom:6vh;font-family:var(--condensed);letter-spacing:.14em;font-size:13px;display:flex;align-items:center;gap:10px}
   .step.hero-step .scroll-hint i{width:44px;height:2px;background:var(--gold);display:block;animation:pulse 1.4s ease-in-out infinite}
   @keyframes pulse{0%,100%{transform:scaleX(.4);transform-origin:left}50%{transform:scaleX(1)}}
 
   /* last step: condensed headline behind the pouring jar, CTA bottom-left */
   .step.final{min-height:170vh;min-height:170svh}
-  .step.final h2{font-family:var(--condensed);letter-spacing:0;font-size:clamp(80px,17vw,300px)}
-  .step.final .cta{position:absolute;left:0;top:calc(50% + 40vh);display:flex;gap:10px;margin:0;z-index:3}
+  .step.final h2{font-family:var(--condensed);letter-spacing:0;font-size:clamp(80px,15vw,260px)}
+  .step.final .cta{display:flex;gap:10px;margin:18px 0 0;position:relative;z-index:3}
 
   @media(max-width:700px){
     /* phones: the headline becomes two huge vertical columns filling the backdrop (word 1 top-left,
@@ -124,24 +127,26 @@
     .stage canvas{height:auto;width:104vw;max-width:none}
     .step{min-height:115vh;min-height:115svh;padding:0}
     .step .num{display:none}
-    .step h2{position:static;transform:none;display:block;font-size:22vw;letter-spacing:-.02em;line-height:.9}
+    .step h2{position:static;inset:auto;padding:0;transform:none;display:block;font-size:22vw;letter-spacing:-.02em;line-height:.9}
     .step h2 span{position:absolute;white-space:nowrap;writing-mode:vertical-lr;text-orientation:mixed}
     .step h2 span:first-child{left:-.04em;top:7vh;top:7svh}
-    .step h2 span:last-child{right:26px;bottom:9vh;bottom:9svh}
+    .step h2 span:last-child{right:62px;bottom:9vh;bottom:9svh}
     .step h2 span:only-child{left:-.04em;top:7vh;top:7svh;right:auto;bottom:auto}
-    .step .jp{left:auto;right:8px;top:10vh;top:10svh;writing-mode:vertical-rl;text-orientation:mixed;font-size:12px;letter-spacing:.12em;line-height:1.7;height:58vh;height:58svh;max-width:none}
+    .step .aside{position:static;max-width:none}
+    .step .jp{position:absolute;left:auto;right:8px;top:10vh;top:10svh;writing-mode:vertical-rl;text-orientation:mixed;font-size:12px;letter-spacing:.1em;line-height:1.7;height:62vh;height:62svh;max-width:none;text-align:left}
     .step .pills{display:none}
     /* hero: horizontal centred poster */
     .step.hero-step{min-height:115vh;min-height:115svh}
-    .step.hero-step h2{position:absolute;left:0;right:0;top:34%;transform:translateY(-50%);font-size:19vw;text-align:center}
+    .step.hero-step .text{padding:0 16px 22vh;padding-bottom:22svh}
+    .step.hero-step h2{position:static;font-size:19vw;text-align:center;line-height:.9}
     .step.hero-step h2 span{position:static;writing-mode:horizontal-tb;display:block}
-    .step.hero-step .num{display:block;left:0;right:0;top:calc(34% - 1.3em - 22vw);text-align:center;font-size:11px}
-    .step.hero-step .jp{left:16px;right:16px;top:calc(34% + 19vw + 8px);writing-mode:horizontal-tb;height:auto;text-align:center;font-size:13px;line-height:1.6}
+    .step.hero-step .num{display:block;position:static;writing-mode:horizontal-tb;text-align:center;font-size:11px;margin-bottom:10px}
+    .step.hero-step .jp{position:static;writing-mode:horizontal-tb;height:auto;text-align:center;font-size:13px;line-height:1.6;margin-top:12px;max-width:30ch}
     .step.hero-step .scroll-hint{right:16px;bottom:5vh;bottom:5svh}
     /* final: condensed horizontal headline up top, Japanese vertical at the edge, CTA under the drips */
-    .step.final h2{position:absolute;left:0;right:0;top:22%;transform:translateY(-50%);font-size:30vw;text-align:center;letter-spacing:.01em}
+    .step.final h2{position:absolute;left:0;right:56px;top:9vh;top:9svh;bottom:auto;padding:0;display:block;font-size:28vw;text-align:center;letter-spacing:.01em}
     .step.final h2 span{position:static;writing-mode:horizontal-tb;display:block}
-    .step.final .cta{left:0;right:0;top:auto;bottom:7vh;bottom:7svh;justify-content:center}
+    .step.final .cta{position:absolute;left:0;right:0;bottom:7vh;bottom:7svh;margin:0;justify-content:center}
   }
 
   .loader{position:absolute;inset:0;z-index:5;display:grid;place-items:center;background:var(--rust);transition:opacity .5s}
@@ -216,8 +221,10 @@
     <div class="text">
       <span class="num rv">01 — Fruit first</span>
       <h2 class="rv d1"><span>Fruit</span><span>62%</span></h2>
+      <div class="aside">
       <p class="jp rv d2">朝どれの完熟いちごを、その日のうちに銅鍋へ。果実の割合は 62%。香りと色は、果実が主役です。</p>
       <div class="pills rv d2"><span class="pill ghost">Fruit 62%</span><span class="pill ghost">Nagano</span></div>
+      </div>
     </div>
   </section>
 
@@ -225,8 +232,10 @@
     <div class="text">
       <span class="num rv">02 — Less sugar</span>
       <h2 class="rv d1"><span>Half</span><span>the sugar</span></h2>
+      <div class="aside">
       <p class="jp rv d2">砂糖は果実の半分以下。甘さは控えめ、果実は主張。パンにのせても、ヨーグルトに沈めても。</p>
       <div class="pills rv d2"><span class="pill ghost">Less sugar</span><span class="pill ghost">No syrup</span></div>
+      </div>
     </div>
   </section>
 
@@ -234,8 +243,10 @@
     <div class="text">
       <span class="num rv">03 — Small batch</span>
       <h2 class="rv d1"><span>Copper</span><span>pot</span></h2>
+      <div class="aside">
       <p class="jp rv d2">銅鍋で、一度に 12 瓶ぶんだけ炊く。火加減は人の手で、炊き上がりは香りで決めます。</p>
       <div class="pills rv d2"><span class="pill ghost">12 jars / batch</span><span class="pill ghost">Hand-stirred</span></div>
+      </div>
     </div>
   </section>
 
@@ -243,8 +254,10 @@
     <div class="text">
       <span class="num rv">04 — Nothing added</span>
       <h2 class="rv d1"><span>No pectin</span><span>No flavoring</span></h2>
+      <div class="aside">
       <p class="jp rv d2">ペクチンも香料も足さない。果実と、レモンと、少しの時間。それだけで、いちごはこんなに騒がしくなる。</p>
       <div class="pills rv d2"><span class="pill ghost">No pectin</span><span class="pill ghost">No flavoring</span></div>
+      </div>
     </div>
   </section>
 
@@ -252,8 +265,10 @@
     <div class="text">
       <span class="num rv">Strawberry · ¥1,280</span>
       <h2 class="rv d1"><span>Crack it</span><span>open</span></h2>
+      <div class="aside">
       <p class="jp rv d2">蓋をひねった瞬間、湯気のようないちごの香り。</p>
       <div class="cta rv d2"><a class="pill gold" href="#shop">Buy Now</a><a class="pill ghost" href="#story">Our story</a></div>
+      </div>
     </div>
   </section>
 </main>
