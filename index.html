@@ -125,7 +125,9 @@
     .stage canvas{height:auto;width:104vw;max-width:none}
     .step{min-height:140vh;min-height:140svh;padding:0}
     .step .num{display:none}
-    .step h2{position:static;inset:auto;padding:0;transform:none;display:block;font-size:22vw;letter-spacing:-.02em;line-height:.9}
+    /* the headline box itself fills the poster and is the positioning base for its vertical columns,
+       so the reveal transform on it never changes where the columns land */
+    .step h2{position:absolute;inset:0;padding:0;display:block;font-size:22vw;letter-spacing:-.02em;line-height:.9}
     .step h2 span{position:absolute;white-space:nowrap;writing-mode:vertical-lr;text-orientation:mixed}
     .step h2 span:first-child{left:-.04em;top:7vh;top:7svh}
     .step h2 span:last-child{right:62px;bottom:9vh;bottom:9svh}
@@ -136,7 +138,7 @@
     /* hero: horizontal centred poster */
     .step.hero-step{min-height:125vh;min-height:125svh}
     .step.hero-step .text{padding:0 16px 22vh;padding-bottom:22svh}
-    .step.hero-step h2{position:static;font-size:19vw;text-align:center;line-height:.9}
+    .step.hero-step h2{position:static;inset:auto;font-size:19vw;text-align:center;line-height:.9}
     .step.hero-step h2 span{position:static;writing-mode:horizontal-tb;display:block}
     .step.hero-step .num{display:block;position:static;writing-mode:horizontal-tb;text-align:center;font-size:11px;margin-bottom:10px}
     .step.hero-step .jp{position:static;writing-mode:horizontal-tb;height:auto;text-align:center;font-size:13px;line-height:1.6;margin-top:12px;max-width:30ch}
