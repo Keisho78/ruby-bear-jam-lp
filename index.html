@@ -67,6 +67,14 @@
   .nav.scrolled .tag{height:0;opacity:0;overflow:hidden;margin:0}
   .nav.scrolled .brand .logo{font-size:16px;background:var(--spice);border-radius:var(--pill);padding:10px 16px}
   @media(max-width:900px){.nav .left .pill:not(:first-child){display:none}.nav .right .pill:first-child{display:none}}
+  @media(max-width:480px){
+    .nav{padding:12px 12px;gap:6px}
+    .nav .pill{height:32px;padding:0 12px;font-size:14px}
+    .brand .tag{display:none}
+    .brand .logo{font-size:16px}
+    .bear{width:34px;height:34px;margin-bottom:4px}
+    .nav.scrolled .brand .logo{font-size:14px;padding:9px 12px}
+  }
 
   /* ============ HERO — long pinned scroll ============ */
   .hero-pin{height:1000vh;position:relative}
