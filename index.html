@@ -165,15 +165,14 @@
   .flavor .tagline{display:inline-block;background:var(--chili);color:#fff;border-radius:var(--pill);font-family:var(--condensed);font-size:13px;letter-spacing:.1em;padding:6px 12px;margin-bottom:16px}
   @media(max-width:900px){.flavors{grid-template-columns:1fr;gap:56px}}
 
-  /* story — full-bleed photo (copper pot, steam) with the copy in the dark right half; a small
-     "polaroid" of the mountain workshop sits bottom-left */
+  /* story — full-bleed photo (the jar in a Nagano strawberry field, jar on the left) with the copy in the darkened right half */
   .story{position:relative;min-height:100vh;min-height:100svh;display:grid;align-items:center;padding:clamp(80px,10vw,140px) 0;overflow:hidden;isolation:isolate}
   .story-bg{position:absolute;inset:0;z-index:-1;background:url('assets/story-bg.jpg') center/cover no-repeat}
   .story-bg::after{content:"";position:absolute;inset:0;
     background:
       linear-gradient(180deg,var(--rust) 0%,rgba(130,53,19,0) 18%,rgba(130,53,19,0) 82%,var(--rust) 100%),
-      linear-gradient(90deg,rgba(40,16,6,.05) 0%,rgba(40,16,6,.25) 45%,rgba(40,16,6,.72) 70%,rgba(40,16,6,.82) 100%)}
-  .story-inner{position:relative;display:grid;grid-template-columns:1fr minmax(0,560px);gap:40px;align-items:end;width:100%}
+      linear-gradient(90deg,rgba(40,16,6,.08) 0%,rgba(40,16,6,.3) 42%,rgba(40,16,6,.8) 66%,rgba(40,16,6,.9) 100%)}
+  .story-inner{position:relative;display:grid;grid-template-columns:1fr minmax(0,560px);gap:40px;align-items:center;width:100%}
   .story-text{grid-column:2}
   .story-text img{margin-bottom:16px}
   .story-text .eyebrow{display:block;margin-bottom:14px}
@@ -181,24 +180,18 @@
   .story-text h2 span{display:block}
   .story-text p{margin-top:18px;font-size:clamp(14px,1.1vw,16px);line-height:1.95;font-weight:500;max-width:46ch}
   .story-text .pills{display:flex;gap:8px;flex-wrap:wrap;margin-top:24px}
+  .story-text .pills .pill{font-family:var(--body);font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:none}
   .story-cta{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}
-  .story-inset{grid-column:1;align-self:end;margin:0;width:min(34vw,420px);background:#f3e6d2;padding:10px 10px 14px;border-radius:4px;transform:rotate(-3deg);box-shadow:0 30px 60px rgba(40,16,6,.45)}
-  .js .story-inset.rv{transform:rotate(-3deg) translateY(28px)}
-  .js .story-inset.rv.in{transform:rotate(-3deg)}
-  .story-inset img{width:100%;height:auto;display:block;border-radius:2px}
-  .story-inset figcaption{font-family:var(--condensed);letter-spacing:.12em;font-size:13px;color:var(--spice);margin-top:10px;text-transform:uppercase}
   @media(max-width:900px){
-    .story{padding:80px 0 72px;min-height:0}
-    .story-bg{background-position:35% center}
+    /* phones: the photo (jar in the field) fills the upper half, the copy sits on a dark gradient below it */
+    .story{padding:46vh 0 64px;padding-top:46svh;min-height:0}
+    .story-bg{background-position:22% 30%}
     .story-bg::after{background:
-      linear-gradient(180deg,var(--rust) 0%,rgba(130,53,19,0) 14%,rgba(130,53,19,0) 86%,var(--rust) 100%),
-      linear-gradient(180deg,rgba(40,16,6,.25) 0%,rgba(40,16,6,.72) 40%,rgba(40,16,6,.86) 100%)}
+      linear-gradient(180deg,var(--rust) 0%,rgba(130,53,19,0) 10%,rgba(130,53,19,0) 90%,var(--rust) 100%),
+      linear-gradient(180deg,rgba(40,16,6,.1) 0%,rgba(40,16,6,.15) 26%,rgba(40,16,6,.82) 44%,rgba(40,16,6,.92) 100%)}
     .story-inner{grid-template-columns:1fr;gap:28px}
     .story-text{grid-column:1}
     .story-text h2{font-size:clamp(40px,11vw,64px)}
-    .story-inset{grid-column:1;grid-row:1;width:min(70vw,320px);justify-self:end;margin-right:6px;transform:rotate(3deg)}
-    .js .story-inset.rv{transform:rotate(3deg) translateY(28px)}
-    .js .story-inset.rv.in{transform:rotate(3deg)}
   }
 
   /* CV */
@@ -333,17 +326,13 @@
 <section class="story" id="story">
   <div class="story-bg" aria-hidden="true"></div>
   <div class="wrap story-inner">
-    <figure class="story-inset rv">
-      <img src="assets/story-inset.jpg" alt="長野の山あいの工房。朝霧の窓辺に並ぶジャムの瓶" loading="lazy" width="1000" height="558">
-      <figcaption>Nagano · 5:40 AM · the first batch of the day</figcaption>
-    </figure>
     <div class="story-text">
       <img class="rv" src="assets/icon.webp" alt="" width="72" height="72">
-      <span class="eyebrow rv">Our story</span>
-      <h2 class="rv d1"><span>No fillers.</span><span>No shortcuts.</span></h2>
-      <p class="rv d1">RUBY BEAR は、長野の山あいの小さな工房で生まれた架空のジャムブランドです。朝に摘んだ完熟の果実を、その日のうちに銅鍋へ。砂糖は果実の半分以下、ペクチンも香料も足しません。</p>
-      <p class="rv d2">一度に炊くのは 12 瓶ぶんだけ。火加減は人の手で、炊き上がりは香りで決めます。蓋をひねった瞬間に立ちのぼる湯気のような香りが、私たちの品質基準です。</p>
-      <div class="pills rv d2"><span class="pill ghost">Fruit 62%</span><span class="pill ghost">No pectin</span><span class="pill ghost">No flavoring</span><span class="pill ghost">12 jars / batch</span></div>
+      <span class="eyebrow rv">Our story · Nagano</span>
+      <h2 class="rv d1"><span>Grown in</span><span>Nagano.</span></h2>
+      <p class="rv d1">RUBY BEAR のいちごは、すべて長野県産。標高 700 メートルの高原は昼と夜の寒暖差が大きく、いちごはゆっくりと糖度を上げながら、香りと酸味をしっかり蓄えます。</p>
+      <p class="rv d2">契約農家 3 軒が朝いちばんに摘んだ完熟の実を、その日のうちに工房の銅鍋へ。畑から瓶まで、いちごが移動する距離は 30 キロ足らずです。</p>
+      <div class="pills rv d2"><span class="pill ghost">長野県産 100%</span><span class="pill ghost">標高 700m</span><span class="pill ghost">朝摘み</span><span class="pill ghost">契約農家 3 軒</span></div>
       <div class="story-cta rv d2"><a class="pill gold" href="#shop">Buy Now</a><a class="pill" href="#cv">Find a store</a></div>
     </div>
   </div>

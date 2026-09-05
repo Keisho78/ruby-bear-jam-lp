@@ -16,7 +16,7 @@ http://localhost:8765 を開く。
    - 瓶は常に画面中央。各セクションは英語見出しを巨大な横書き（1 行目左寄せ・2 行目右寄せ）で瓶の背景に敷き、日本語とピルは左下の列に置く
    - 各セクションの中央を通過する時点のフレーム番号を `data-f` で指定（`data-x` / `data-s` は残してあるが現在は 0 / 1 に固定）
    - 最終セクションの後半で瓶が沈みながらフェードアウトし、次のセクションが下から入ってくる
-2. Our story（`#story`）— 全面背景写真（銅鍋と湯気 `assets/story-bg.jpg`）の右側にアイコン・見出し・本文・ピル・CTA、左下にポラロイド風の写真カード（`assets/story-inset.jpg`）
+2. Our story（`#story`）— 長野のいちご畑に置いた商品の瓶の写真（`assets/story-bg.jpg`）を全面背景に、右側に「GROWN IN NAGANO.」と長野産いちごの説明・ピル・CTA。スマホは写真を上半分に見せて下に本文
 3. Pick your flavor（透過 PNG/WebP の瓶 3 種）
 4. CV（`#cv`）— Buy Now / LINE 友だち追加 / Instagram の 3 ボタン + 取扱店リンク
 5. Footer — Instagram / LINE アイコン、リンク列
@@ -58,5 +58,6 @@ http://localhost:8765 を開く。
 | v2: 背景除去 3 枚 | Image Background Remover | 1 × 3 |
 | v2: 落下動画（6s）+ 蓋開き動画（6s） | minimax_h3 | 12 × 2 |
 | v3: アイコン 2 案（緑バック生成 → ローカルでキー抜き・2色化） | nano_banana_2 | 1.5 × 2 = 3 |
-| v5: STORY 背景写真 2 枚（銅鍋 / 山の朝の工房） | nano_banana_2 | 2 × 2 = 4 |
-| v2〜v5 小計（残高 643 → 607） | | 36 |
+| v5: STORY 背景写真 2 枚（銅鍋 / 山の朝の工房、現在は未使用・`assets/original/`） | nano_banana_2 | 2 × 2 = 4 |
+| v6: STORY 背景写真 2 枚（いちご畑と瓶、参照画像付き） | nano_banana_2 | 2 × 2 = 4 |
+| v2〜v6 小計（残高 643 → 603） | | 40 |
