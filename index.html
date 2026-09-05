@@ -165,10 +165,42 @@
   .flavor .tagline{display:inline-block;background:var(--chili);color:#fff;border-radius:var(--pill);font-family:var(--condensed);font-size:13px;letter-spacing:.1em;padding:6px 12px;margin-bottom:16px}
   @media(max-width:900px){.flavors{grid-template-columns:1fr;gap:56px}}
 
+  /* story */
+  .story-grid img{margin-bottom:18px}
+  .story-grid .eyebrow{display:block;margin-bottom:14px}
+  .story-grid .display.xl{font-size:clamp(44px,11vw,180px)}
+  .story-copy{display:grid;grid-template-columns:1.1fr .9fr;column-gap:48px;row-gap:16px;margin-top:40px;align-items:start}
+  .story-copy p{grid-column:1;font-size:clamp(14px,1.15vw,17px);line-height:1.9;max-width:46ch;font-weight:500}
+  .story-copy .pills{grid-column:2;grid-row:1;display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+  .story-cta{grid-column:2;grid-row:2;display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end}
+  @media(max-width:900px){
+    .story-copy{grid-template-columns:1fr}
+    .story-copy .pills,.story-cta{grid-column:1;grid-row:auto;justify-content:flex-start}
+  }
+
+  /* CV */
+  .cv-box{background:var(--spice);border-radius:6px;padding:clamp(28px,4vw,56px);display:grid;grid-template-columns:1.2fr .8fr;gap:32px;align-items:center}
+  .cv-box .eyebrow{display:block;margin-bottom:12px}
+  .cv-box .copy{margin-top:18px;max-width:46ch}
+  .cv-actions{display:flex;flex-direction:column;gap:10px;align-items:stretch}
+  .big-pill{height:52px;font-size:20px;justify-content:center}
+  .pill .ico{width:20px;height:20px;flex:none}
+  .line-pill{background:#06C755;color:#fff}
+  .line-pill:hover{background:#05b04c;color:#fff}
+  .ig-pill{background:var(--clove);color:var(--gold)}
+  .cv-note{font-size:12px;text-align:center;color:var(--saffron);margin-top:6px}
+  .cv-note a{text-decoration:underline;color:var(--gold)}
+  @media(max-width:900px){.cv-box{grid-template-columns:1fr}}
+
   footer{padding:60px 0 30px}
+  .social{display:flex;align-items:center;gap:10px;margin-top:22px}
+  .social-btn{width:44px;height:44px;border-radius:var(--pill);background:var(--spice);display:grid;place-items:center;transition:background .2s,color .2s,transform .2s}
+  .social-btn svg{width:22px;height:22px}
+  .social-btn:hover{background:var(--gold);color:var(--clove);transform:translateY(-1px)}
+  .social-label{font-family:var(--condensed);letter-spacing:.1em;font-size:14px;margin-left:4px}
   .foot-grid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:24px}
   footer .big{font-family:var(--display);font-size:clamp(36px,8vw,120px);line-height:.85;letter-spacing:-.02em;text-transform:uppercase}
-  footer ul{list-style:none;display:grid;gap:8px;font-family:var(--condensed);font-size:16px;letter-spacing:.08em;text-transform:uppercase}
+  footer ul{list-style:none;display:grid;gap:12px;align-content:start;font-family:var(--condensed);font-size:16px;letter-spacing:.08em;text-transform:uppercase}
   .foot-bottom{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-top:40px;padding-top:16px;border-top:3px dotted var(--gold);font-family:var(--condensed);letter-spacing:.1em;font-size:12px;text-transform:uppercase}
   @media(max-width:900px){.foot-grid{grid-template-columns:1fr 1fr}}
 
@@ -216,7 +248,7 @@
     <div class="scroll-hint"><span>Scroll to open</span><i></i></div>
   </section>
 
-  <section class="step side-l" id="story" data-x="0" data-s="1" data-f="78">
+  <section class="step side-l" id="fruit" data-x="0" data-s="1" data-f="78">
     <div class="text">
       <span class="num rv">01 — Fruit first</span>
       <h2 class="rv d1"><span>Fruit</span><span>62%</span></h2>
@@ -274,10 +306,30 @@
 
 <hr class="dots">
 
+<!-- ============ STORY ============ -->
+<section class="section story" id="story">
+  <div class="wrap">
+    <div class="story-grid">
+      <div>
+        <img class="rv" src="assets/icon.webp" alt="" width="96" height="96">
+        <span class="eyebrow rv">Our story</span>
+        <h2 class="display xl rv d1">No fillers.<br>No shortcuts.</h2>
+      </div>
+      <div class="story-copy">
+        <p class="rv d1">RUBY BEAR は、長野の山あいの小さな工房で生まれた架空のジャムブランドです。朝に摘んだ完熟の果実を、その日のうちに銅鍋へ。砂糖は果実の半分以下、ペクチンも香料も足しません。</p>
+        <p class="rv d2">一度に炊くのは 12 瓶ぶんだけ。火加減は人の手で、炊き上がりは香りで決めます。蓋をひねった瞬間に立ちのぼる湯気のような香りが、私たちの品質基準です。</p>
+        <div class="pills rv d2"><span class="pill ghost">Fruit 62%</span><span class="pill ghost">No pectin</span><span class="pill ghost">No flavoring</span><span class="pill ghost">12 jars / batch</span></div>
+        <div class="story-cta rv d2"><a class="pill gold" href="#shop">Buy Now</a><a class="pill" href="#cv">Find a store</a></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="dots">
+
 <!-- ============ FLAVORS ============ -->
 <section class="section" id="shop">
   <div class="wrap">
-    <img class="rv" src="assets/icon.webp" alt="" width="88" height="88" style="margin:0 0 14px">
     <span class="eyebrow rv">Three jars, one riot</span>
     <h2 class="display lg rv d1">Pick your<br>flavor</h2>
     <div class="flavors">
@@ -308,12 +360,51 @@
 
 <hr class="dots">
 
+<!-- ============ CV ============ -->
+<section class="section cv" id="cv">
+  <div class="wrap">
+    <div class="cv-box">
+      <div>
+        <span class="eyebrow rv">Ready for a sweet riot?</span>
+        <h2 class="display lg rv d1">Get your<br>jar today</h2>
+        <p class="copy up rv d2">オンラインストアは 3 瓶以上で送料無料。<br>LINE の友だち追加で、初回 10% OFF クーポンをお届けします。</p>
+      </div>
+      <div class="cv-actions rv d2">
+        <a class="pill gold big-pill" href="#shop">Buy Now
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18l-2 12H5L3 6z"/><path d="M9 6a3 3 0 0 1 6 0"/></svg>
+        </a>
+        <a class="pill line-pill big-pill" href="#" aria-label="LINE 友だち追加">
+          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 3C6.9 3 2.8 6.4 2.8 10.6c0 3.8 3.3 6.9 7.8 7.5.3.1.7.2.8.5.1.3.1.6 0 .9l-.1.8c0 .2-.2.9.8.5s5.3-3.1 7.2-5.3c1.3-1.4 1.9-2.9 1.9-4.9C21.2 6.4 17.1 3 12 3z"/></svg>
+          LINE で友だち追加
+        </a>
+        <a class="pill ig-pill big-pill" href="#" aria-label="Instagram">
+          <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+          Instagram
+        </a>
+        <span class="cv-note">全国のセレクトショップでも取り扱い中 · <a href="#">取扱店一覧</a></span>
+      </div>
+    </div>
+  </div>
+</section>
+
 <footer>
   <div class="wrap">
     <div class="foot-grid">
-      <div><img src="assets/icon.webp" alt="RUBY BEAR" width="96" height="96" style="margin-bottom:16px"><div class="big">Ruby<br>Bear</div></div>
-      <ul><li><a href="#shop">Shop</a></li><li><a href="#story">Story</a></li><li><a href="#">Where to buy</a></li></ul>
-      <ul><li>Nagano, Japan</li><li><a href="mailto:hello@rubybear.example">hello@rubybear.example</a></li><li><a href="#">Privacy policy</a></li></ul>
+      <div>
+        <img src="assets/icon.webp" alt="RUBY BEAR" width="96" height="96" style="margin-bottom:16px">
+        <div class="big">Ruby<br>Bear</div>
+        <div class="social">
+          <a class="social-btn" href="#" aria-label="Instagram">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+          </a>
+          <a class="social-btn" href="#" aria-label="LINE">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 3C6.9 3 2.8 6.4 2.8 10.6c0 3.8 3.3 6.9 7.8 7.5.3.1.7.2.8.5.1.3.1.6 0 .9l-.1.8c0 .2-.2.9.8.5s5.3-3.1 7.2-5.3c1.3-1.4 1.9-2.9 1.9-4.9C21.2 6.4 17.1 3 12 3z"/><path fill="var(--spice)" d="M8.6 8.9h-.9v3.9h2.4v-.8H8.6zm1.9 0h.9v3.9h-.9zm4.6 0v2.4l-1.8-2.4h-.8v3.9h.9v-2.4l1.8 2.4h.8V8.9zm1.3 0v3.9h2.5v-.8h-1.6v-.8h1.6v-.8h-1.6v-.7h1.6v-.8z"/></svg>
+          </a>
+          <span class="social-label">@rubybear.jam</span>
+        </div>
+      </div>
+      <ul><li><a href="#shop">Shop</a></li><li><a href="#story">Story</a></li><li><a href="#cv">Where to buy</a></li><li><a href="#">Recipes</a></li></ul>
+      <ul><li>Nagano, Japan</li><li><a href="mailto:hello@rubybear.example">hello@rubybear.example</a></li><li><a href="#">Privacy policy</a></li><li><a href="#">Terms</a></li></ul>
     </div>
     <div class="foot-bottom"><span>2026 © Ruby Bear · All rights reserved</span><span>This is a fictional brand</span></div>
   </div>
