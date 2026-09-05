@@ -16,7 +16,7 @@ http://localhost:8765 を開く。
    - 瓶は常に画面中央。各セクションは英語見出しを巨大な横書き（1 行目左寄せ・2 行目右寄せ）で瓶の背景に敷き、日本語とピルは左下の列に置く
    - 各セクションの中央を通過する時点のフレーム番号を `data-f` で指定（`data-x` / `data-s` は残してあるが現在は 0 / 1 に固定）
    - 最終セクションの後半で瓶が沈みながらフェードアウトし、次のセクションが下から入ってくる
-2. Our story（`#story`）— 長野のいちご畑に置いた商品の瓶の写真（`assets/story-bg.jpg`）を全面背景に、右側に「GROWN IN NAGANO.」と長野産いちごの説明・ピル・CTA。スマホは写真を上半分に見せて下に本文
+2. Our story（`#story`）— 長野のいちご畑に置いた商品の瓶の写真（`assets/story-bg.jpg`）を全面背景に、右側に「GROWN IN NAGANO.」と長野産いちごの説明・ピル・CTA。スマホは縦長の切り抜き（`assets/story-bg-m.jpg`）を上に置き、その下に本文
 3. Pick your flavor（透過 PNG/WebP の瓶 3 種）
 4. CV（`#cv`）— Buy Now / LINE 友だち追加 / Instagram の 3 ボタン + 取扱店リンク
 5. Footer — Instagram / LINE アイコン、リンク列

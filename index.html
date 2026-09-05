@@ -183,12 +183,12 @@
   .story-text .pills .pill{font-family:var(--body);font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:none}
   .story-cta{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}
   @media(max-width:900px){
-    /* phones: the photo (jar in the field) fills the upper half, the copy sits on a dark gradient below it */
-    .story{padding:46vh 0 64px;padding-top:46svh;min-height:0}
-    .story-bg{background-position:22% 30%}
+    /* phones: a portrait crop of the photo (jar + field + mountains) sits at the top at full width
+       (183vw tall); the copy starts just under the jar on a dark gradient that fades into the wall */
+    .story{padding:150vw 0 64px;min-height:0}
+    .story-bg{background:url('assets/story-bg-m.jpg') center top/100% auto no-repeat}
     .story-bg::after{background:
-      linear-gradient(180deg,var(--rust) 0%,rgba(130,53,19,0) 10%,rgba(130,53,19,0) 90%,var(--rust) 100%),
-      linear-gradient(180deg,rgba(40,16,6,.1) 0%,rgba(40,16,6,.15) 26%,rgba(40,16,6,.82) 44%,rgba(40,16,6,.92) 100%)}
+      linear-gradient(180deg,var(--rust) 0,rgba(130,53,19,0) 48px,rgba(130,53,19,0) 100vw,rgba(40,16,6,.55) 135vw,rgba(40,16,6,.9) 165vw,rgba(40,16,6,.9) calc(100% - 80px),var(--rust) 100%)}
     .story-inner{grid-template-columns:1fr;gap:28px}
     .story-text{grid-column:1}
     .story-text h2{font-size:clamp(40px,11vw,64px)}
