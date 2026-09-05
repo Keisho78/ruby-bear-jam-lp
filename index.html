@@ -67,10 +67,12 @@
   .nav.scrolled .bear{height:0;opacity:0;margin:0}
   .nav.scrolled .tag{height:0;opacity:0;overflow:hidden;margin:0}
   .nav.scrolled .brand .logo{font-size:16px;background:var(--spice);border-radius:var(--pill);padding:10px 16px}
-  @media(max-width:900px){.nav .left .pill:not(:first-child){display:none}.nav .right .pill:first-child{display:none}}
+  @media(max-width:900px){.nav .right .pill:first-child{display:none}}
   @media(max-width:480px){
-    .nav{padding:12px 12px;gap:6px}
-    .nav .pill{height:32px;padding:0 12px;font-size:14px}
+    .nav{padding:12px 10px;gap:4px}
+    .nav .left{gap:4px}
+    .nav .pill{height:32px;padding:0 10px;font-size:13px;letter-spacing:.04em}
+    .nav .pill svg{width:14px;height:14px}
     .brand .tag{display:none}
     .brand .logo{font-size:16px}
     .bear{width:34px;height:34px;margin-bottom:4px}
@@ -179,9 +181,6 @@
   .story-text h2{font-family:var(--display);text-transform:uppercase;line-height:.88;letter-spacing:-.02em;font-size:clamp(40px,5.2vw,78px);color:var(--gold)}
   .story-text h2 span{display:block}
   .story-text p{margin-top:18px;font-size:clamp(14px,1.1vw,16px);line-height:1.95;font-weight:500;max-width:46ch}
-  .story-text .pills{display:flex;gap:8px;flex-wrap:wrap;margin-top:24px}
-  .story-text .pills .pill{font-family:var(--body);font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:none}
-  .story-cta{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}
   @media(max-width:900px){
     /* phones: a portrait crop of the photo (jar + field + mountains) sits at the top at full width
        (183vw tall); the copy starts just under the jar on a dark gradient that fades into the wall */
@@ -332,8 +331,6 @@
       <h2 class="rv d1"><span>Grown in</span><span>Nagano.</span></h2>
       <p class="rv d1">RUBY BEAR のいちごは、すべて長野県産。標高 700 メートルの高原は昼と夜の寒暖差が大きく、いちごはゆっくりと糖度を上げながら、香りと酸味をしっかり蓄えます。</p>
       <p class="rv d2">契約農家 3 軒が朝いちばんに摘んだ完熟の実を、その日のうちに工房の銅鍋へ。畑から瓶まで、いちごが移動する距離は 30 キロ足らずです。</p>
-      <div class="pills rv d2"><span class="pill ghost">長野県産 100%</span><span class="pill ghost">標高 700m</span><span class="pill ghost">朝摘み</span><span class="pill ghost">契約農家 3 軒</span></div>
-      <div class="story-cta rv d2"><a class="pill gold" href="#shop">Buy Now</a><a class="pill" href="#cv">Find a store</a></div>
     </div>
   </div>
 </section>
